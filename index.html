@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TradingView</title>
+  
+  <!-- PWA 桌面圖示與全螢幕設定 -->
+  <meta name="apple-mobile-web-app-title" content="TradingView">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="https://pngimg.com/uploads/tradingview/tradingview_PNG10.png">
+  
+  <!-- 載入 TradingView 官方 Lightweight Charts 引擎 -->
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #ffffff; color: #131722; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* 頂部資訊列 (圖1細節) */
+    .app-header {
+      height: 44px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border-bottom: 1px solid #f0f3fa;
+    }
+    .symbol-info { display: flex; flex-direction: column; }
+    .symbol-name { font-size: 15px; font-weight: 700; color: #131722; display: flex; align-items: center; gap: 4px; }
+    .symbol-price { font-size: 12px; color: #f23645; font-weight: 500; }
+    .header-tools { display: flex; align-items: center; gap: 12px; background: #f8f9fd; padding: 4px 8px; border-radius: 20px; }
+    .header-tool-icon { width: 16px; height: 16px; opacity: 0.7; }
+
+    /* 主圖表區域 */
+    .chart-container { flex: 1; position: relative; width: 100%; background: #ffffff; }
+    #tv-chart { width: 100%; height: 100%; }
+
+    /* 浮動廣告卡片 (圖1細節 Time to upgrade?) */
+    .ad-banner {
+      position: absolute;
+      bottom: 50px;
+      left: 10px;
+      right: 10px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      border: 1px solid #e0e3eb;
+      display: flex;
+      justify-content: space-between;
+      z-index: 10;
+    }
+    .ad-content { max-width: 65%; }
+    .ad-title { font-size: 13px; font-weight: 700; color: #131722; margin-bottom: 4px; }
+    .ad-desc { font-size: 11px; color: #787b86; line-height: 1.3; margin-bottom: 8px; }
+    .ad-btn { background: #131722; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+    .ad-img-box { position: relative; width: 80px; height: 60px; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 8px; color: #fff; font-size: 9px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .ad-close { position: absolute; top: -6px; right: -6px; background: #fff; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+    /* 圖表底部工具列 (包含 Coinbase 圖示按鈕) */
+    .chart-subtoolbar {
+      height: 40px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f0f3fa;
+      background: #ffffff;
+    }
+    .subtool-left { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600; color: #131722; }
+    .subtool-right { display: flex; align-items: center; gap: 14px; }
+    
+    /* 核心修改：圈起來位置的 Coinbase 按鈕 */
+    .coinbase-trigger-btn {
+      width: 28px;
+      height: 28px;
+      background: #0052ff;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .coinbase-trigger-btn svg { width: 16px; height: 16px; fill: #ffffff; }
+
+    /* 底部 5 大導航選單 */
+    .bottom-nav {
+      height: 52px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #e0e3eb;
+      background: #ffffff;
+    }
+    .nav-tab { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: #787b86; }
+    .nav-tab.active { color: #131722; font-weight: 700; }
+
+    /* Coinbase 模擬交易彈窗 (完全還原圖2) */
+    .coinbase-sheet {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 100;
+      display: none;
+      justify-content: flex-end;
+      flex-direction: column;
+    }
+    .coinbase-sheet.active { display: flex; }
+    .sheet-body {
+      background: #ffffff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 16px;
+      animation: slideUp 0.25s ease-out;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+    .sheet-header { display: flex; justify-content: space-between; align-items: center; }
+    .sheet-title { font-size: 22px; font-weight: 800; color: #131722; display: flex; align-items: center; gap: 6px; }
+    .account-badge { display: inline-flex; align-items: center; gap: 4px; background: #f0f3fa; padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: 600; margin: 10px 0 16px 0; }
+    
+    /* 數據表格網格 (100% 還原圖2) */
+    .metrics-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .m-label { font-size: 11px; color: #787b86; margin-bottom: 2px; }
+    .m-val { font-size: 13px; font-weight: 700; color: #131722; word-break: break-all; }
+    .m-val.green { color: #089981; }
+    .m-val.red { color: #f23645; }
+
+    .position-card { background: #ffffff; border: 1px solid #f0f3fa; padding: 12px; border-radius: 8px; margin-top: 8px; }
+    .symbol-tag { background: #2962ff; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-block; }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部資訊列 -->
+  <div class="app-header">
+    <div class="symbol-info">
+      <div class="symbol-name">
+        <span style="color:#f7931a;">🟠</span> BTCUSDT Perpetual Swap
+      </div>
+      <div class="symbol-price">83,565.7 -14.2 (-0.02%)</div>
+    </div>
+    <div class="header-tools">
+      <span>✏️</span><span>📏</span><span>🎯</span>
+    </div>
+  </div>
+
+  <!-- K 線圖區域 (使用 TradingView Lightweight Charts) -->
+  <div class="chart-container">
+    <div id="tv-chart"></div>
+
+    <!-- 廣告推播浮卡 (圖1細節) -->
+    <div class="ad-banner" id="adBanner">
+      <div class="ad-close" onclick="document.getElementById('adBanner').style.display='none'">✕</div>
+      <div class="ad-content">
+        <div class="ad-title">Time to upgrade?</div>
+        <div class="ad-desc">Remember, the more tools and data you have, the easier it is to make better market decisions.</div>
+        <button class="ad-btn">Explore our plans</button>
+      </div>
+      <div class="ad-img-box">
+        ESSENTIAL<br>PLUS<br>PREMIUM
+      </div>
+    </div>
+  </div>
+
+  <!-- 圖表底部工具列 (含 Coinbase 圖示) -->
+  <div class="chart-subtoolbar">
+    <div class="subtool-left">
+      <span>BTCUSD</span>
+      <span style="color:#787b86; font-size:12px;">15m</span>
+      <span>✏️️</span>
+      <span>📈</span>
+    </div>
+    <div class="subtool-right">
+      <!-- 你指定的 Coinbase 按鈕位置 (替換原 17 圖示) -->
+      <div class="coinbase-trigger-btn" onclick="openCoinbaseSheet()">
+        <svg viewBox="0 0 1024 1024"><path d="M512 0C229.2 0 0 229.2 0 512s229.2 512 512 512 512-229.2 512-512S794.8 0 512 0zm0 736c-123.7 0-224-100.3-224-224s100.3-224 224-224 224 100.3 224-224-100.3 224-224 224z"/></svg>
+      </div>
+      <span style="font-size:16px;">💬</span>
+      <span style="font-size:16px;">↩️</span>
+    </div>
+  </div>
+
+  <!-- 底部 5 大 Main Tabs -->
+  <div class="bottom-nav">
+    <div class="nav-tab">📋<span>Watchlist</span></div>
+    <div class="nav-tab active">📊<span>Chart</span></div>
+    <div class="nav-tab">🧭<span>Explore</span></div>
+    <div class="nav-tab">👥<span>Community</span></div>
+    <div class="nav-tab">☰<span>Menu</span></div>
+  </div>
+
+  <!-- Coinbase 模擬交易彈窗 (100% 複製圖2內容) -->
+  <div class="coinbase-sheet" id="coinbaseSheet">
+    <div class="sheet-body">
+      <div class="sheet-header">
+        <div class="sheet-title">
+          Coinbase <span style="font-size:14px; color:#787b86;">▾</span>
+        </div>
+        <div style="font-size:20px; font-weight:bold; cursor:pointer;" onclick="closeCoinbaseSheet()">✕</div>
+      </div>
+
+      <div class="account-badge">
+        Lapetos USD ▾
+      </div>
+
+      <!-- 資產數據網格 -->
+      <div class="metrics-container">
+        <div>
+          <div class="m-label">Account balance</div>
+          <div class="m-val">5,059,260,394.12</div>
+        </div>
+        <div>
+          <div class="m-label">Realized PnL</div>
+          <div class="m-val green">+4,059,260,394.12</div>
+        </div>
+        <div>
+          <div class="m-label">Account margin</div>
+          <div class="m-val">503,902,698.53</div>
+        </div>
+        <div>
+          <div class="m-label">Equity</div>
+          <div class="m-val">3,309,103,069.43</div>
+        </div>
+        <div>
+          <div class="m-label">Unrealized PnL</div>
+          <div class="m-val red">-1,750,157,324.69</div>
+        </div>
+        <div>
+          <div class="m-label">Available funds</div>
+          <div class="m-val">2,805,200,370.9</div>
+        </div>
+      </div>
+
+      <!-- 持倉列表 -->
+      <div style="display:flex; gap:12px; font-size:13px; font-weight:700; margin-bottom:12px; border-bottom:1px solid #f0f3fa; padding-bottom:8px;">
+        <span style="color:#131722; border-bottom:2px solid #131722; padding-bottom:6px;">Positions 2</span>
+        <span style="color:#787b86;">Orders 1</span>
+        <span style="color:#787b86;">Order history</span>
+      </div>
+
+      <div class="position-card">
+        <div style="margin-bottom:6px;"><span class="symbol-tag">OKX:BTCUSDT.P</span></div>
+        <div style="font-size:11px; color:#787b86; margin-bottom:8px;">BTCUSDT PERPETUAL SWAP CONTRACT</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:12px;">
+          <div><span style="color:#787b86;">Side:</span> <span style="color:#089981; font-weight:700;">Long</span></div>
+          <div><span style="color:#787b86;">Leverage:</span> <b>100x</b></div>
+          <div><span style="color:#787b86;">Unrealized PnL:</span> <span class="red">-192,536,524.69 USD</span></div>
+          <div><span style="color:#787b86;">Unrealized PnL %:</span> <span class="red">-0.45%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 初始化 TradingView 官方 Lightweight Chart
+    const chartContainer = document.getElementById('tv-chart');
+    const chart = LightweightCharts.createChart(chartContainer, {
+      layout: { backgroundColor: '#ffffff', textColor: '#131722' },
+      grid: { vertLines: { color: '#f0f3fa' }, horzLines: { color: '#f0f3fa' } },
+      rightPriceScale: { borderColor: '#f0f3fa' },
+      timeScale: { borderColor: '#f0f3fa' },
+    });
+
+    const candleSeries = chart.addCandlestickSeries({
+      upColor: '#089981', downColor: '#f23645',
+      borderUpColor: '#089981', borderDownColor: '#f23645',
+      wickUpColor: '#089981', wickDownColor: '#f23645',
+    });
+
+    // 擬真 K 線數據
+    candleSeries.setData([
+      { time: '2026-09-25', open: 82100, high: 83200, low: 81800, close: 82900 },
+      { time: '2026-09-26', open: 82900, high: 84000, low: 82500, close: 83800 },
+      { time: '2026-09-27', open: 83800, high: 84200, low: 83100, close: 83400 },
+      { time: '2026-09-28', open: 83400, high: 83900, low: 82800, close: 83100 },
+      { time: '2026-09-29', open: 83100, high: 84500, low: 83000, close: 84200 },
+      { time: '2026-09-30', open: 84200, high: 84800, low: 83200, close: 83565.7 },
+    ]);
+
+    function openCoinbaseSheet() {
+      document.getElementById('coinbaseSheet').classList.add('active');
+    }
+    function closeCoinbaseSheet() {
+      document.getElementById('coinbaseSheet').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
