@@ -5,32 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>TradingView</title>
   
+  <!-- Mobile App 標籤與圖示設定 -->
   <meta name="apple-mobile-web-app-title" content="TradingView">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="https://pngimg.com/uploads/tradingview/tradingview_PNG10.png">
 
+  <!-- 載入 TradingView 官方 Web Widget API -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: #ffffff; color: #131722; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
     /* 頁面切換控制 */
     .page { display: none; flex: 1; flex-direction: column; overflow-y: auto; position: relative; }
     .page.active { display: flex; }
 
-    /* --- Watchlist 頁面 (圖20) --- */
-    .wl-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #fff; }
-    .wl-title { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+    /* --- 1. Watchlist 頁面 (圖20) --- */
+    .wl-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #fff; border-bottom: 1px solid #f0f3fa; }
+    .wl-logo { width: 24px; height: 24px; background: #000; color: #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; }
     
-    .invite-banner { background: linear-gradient(90deg, #f0f4ff, #ffeef4); margin: 0 16px 16px 16px; padding: 12px 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .invite-banner { background: linear-gradient(135deg, #eff4fe, #fdecf2); margin: 12px 16px; padding: 12px 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
     .invite-text h4 { font-size: 14px; font-weight: 700; color: #131722; }
     .invite-text p { font-size: 11px; color: #787b86; margin-top: 2px; }
 
     .category-title { font-size: 12px; font-weight: 700; color: #787b86; padding: 8px 16px 4px 16px; }
     
-    .crypto-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid #f8f9fd; }
+    .crypto-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f8f9fd; cursor: pointer; }
     .crypto-left { display: flex; align-items: center; gap: 12px; }
-    .crypto-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 12px; }
+    .crypto-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 13px; }
     .symbol-main { font-size: 14px; font-weight: 700; color: #131722; }
     .symbol-sub { font-size: 11px; color: #787b86; }
     .crypto-right { text-align: right; }
@@ -39,35 +43,64 @@
     .red { color: #f23645; }
     .green { color: #089981; }
 
-    /* --- Chart 頁面 (圖19) --- */
-    .chart-header { height: 44px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f0f3fa; }
-    .chart-canvas-box { flex: 1; position: relative; background: #ffffff; }
-    canvas { width: 100%; height: 100%; display: block; }
+    /* --- 2. Chart 頁面 (圖13, 19) --- */
+    .chart-container { flex: 1; position: relative; width: 100%; height: 100%; }
+    #tradingview_widget { width: 100%; height: 100%; }
 
-    .chart-toolbar { height: 40px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0f3fa; }
-    .coinbase-btn { width: 28px; height: 28px; background: #0052ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    /* 時間升級推播卡片 (圖13) */
+    .ad-card {
+      position: absolute;
+      bottom: 50px;
+      left: 12px;
+      right: 12px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      border: 1px solid #e0e3eb;
+      display: flex;
+      justify-content: space-between;
+      z-index: 20;
+    }
+    .ad-card-left { max-width: 68%; }
+    .ad-card-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .ad-card-desc { font-size: 11px; color: #787b86; line-height: 1.3; margin-bottom: 8px; }
+    .ad-card-btn { background: #131722; color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+    .ad-card-right { background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 8px; width: 70px; height: 60px; color: #fff; font-size: 8px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-align: center; }
 
-    /* --- 底部導航 (圖19/20) --- */
+    /* 圖表底部微型工具列 (圖13圈起來的位置) */
+    .chart-subbar { height: 40px; padding: 0 12px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f0f3fa; background: #fff; }
+    .coinbase-btn { width: 28px; height: 28px; background: #0052ff; border-radius: 7px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,82,255,0.3); }
+
+    /* --- 3. Coinbase 模擬交易彈窗 (圖14) --- */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; justify-content: flex-end; flex-direction: column; z-index: 500; }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet { background: #ffffff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 16px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.2s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .modal-title { font-size: 20px; font-weight: 800; color: #131722; }
+    .account-select { background: #f0f3fa; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 16px; }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .m-item .m-lbl { font-size: 11px; color: #787b86; }
+    .m-item .m-val { font-size: 12px; font-weight: 700; margin-top: 2px; word-break: break-all; }
+
+    .pos-box { border-top: 1px solid #f0f3fa; padding-top: 12px; margin-top: 12px; }
+
+    /* --- 4. 底部 5 大 Main Tabs --- */
     .bottom-nav { height: 52px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #e0e3eb; background: #ffffff; }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: #787b86; cursor: pointer; }
-    .nav-item.active { color: #131722; font-weight: 700; }
-
-    /* --- Coinbase 彈窗 (圖14) --- */
-    .sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; justify-content: flex-end; flex-direction: column; z-index: 200; }
-    .sheet-overlay.open { display: flex; }
-    .sheet-content { background: #ffffff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding: 16px; max-height: 85vh; overflow-y: auto; }
-    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
-    .m-title { font-size: 11px; color: #787b86; }
-    .m-num { font-size: 12px; font-weight: 700; margin-top: 2px; }
+    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; color: #787b86; cursor: pointer; }
+    .nav-btn.active { color: #131722; font-weight: 700; }
   </style>
 </head>
 <body>
 
-  <!-- 1. Watchlist 頁面 (複製圖20) -->
+  <!-- Watchlist 頁面 (圖片20) -->
   <div class="page active" id="page-watchlist">
     <div class="wl-header">
-      <div class="wl-title">💬 17</div>
-      <div>🔍</div>
+      <div class="wl-logo">17</div>
+      <div style="font-size: 16px;">🔍</div>
     </div>
     
     <div class="invite-banner">
@@ -75,12 +108,11 @@
         <h4>Invite a friend</h4>
         <p>Send them your link</p>
       </div>
-      <div style="font-size: 20px;">💖</div>
+      <div style="font-size: 22px;">💖</div>
     </div>
 
     <div class="category-title">Crypto</div>
 
-    <!-- 幣種列表 -->
     <div class="crypto-item" onclick="switchTab('chart')">
       <div class="crypto-left">
         <div class="crypto-icon" style="background:#f7931a;">₿</div>
@@ -95,7 +127,7 @@
       </div>
     </div>
 
-    <div class="crypto-item">
+    <div class="crypto-item" onclick="switchTab('chart')">
       <div class="crypto-left">
         <div class="crypto-icon" style="background:#627eea;">Ξ</div>
         <div>
@@ -109,7 +141,7 @@
       </div>
     </div>
 
-    <div class="crypto-item">
+    <div class="crypto-item" onclick="switchTab('chart')">
       <div class="crypto-left">
         <div class="crypto-icon" style="background:#14f195; color:#000;">S</div>
         <div>
@@ -123,7 +155,7 @@
       </div>
     </div>
 
-    <div class="crypto-item">
+    <div class="crypto-item" onclick="switchTab('chart')">
       <div class="crypto-left">
         <div class="crypto-icon" style="background:#f0b90b; color:#000;">🟡</div>
         <div>
@@ -138,55 +170,70 @@
     </div>
   </div>
 
-  <!-- 2. Chart 頁面 (複製圖19) -->
+  <!-- Chart 頁面 (圖片13, 19) -->
   <div class="page" id="page-chart">
-    <div class="chart-header">
-      <div>
-        <div style="font-weight: bold; font-size: 14px;">🟠 BTCUSDT Perpetual Swap</div>
-        <div style="font-size: 11px; color: #f23645;">83,565.7 -14.2 (-0.02%)</div>
+    <div class="chart-container">
+      <!-- 官方 TradingView 原生圖表 API 嵌入點 -->
+      <div id="tv_chart_container"></div>
+
+      <!-- 圖片13 中的 Time to upgrade? 推播卡片 -->
+      <div class="ad-card" id="adCard">
+        <div style="position:absolute; top:-6px; right:-6px; background:#fff; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; font-size:10px; box-shadow:0 2px 4px rgba(0,0,0,0.2);" onclick="document.getElementById('adCard').style.display='none'">✕</div>
+        <div class="ad-card-left">
+          <div class="ad-card-title">Time to upgrade?</div>
+          <div class="ad-card-desc">Remember, the more tools and data you have, the easier it is to make better market decisions.</div>
+          <button class="ad-card-btn">Explore our plans</button>
+        </div>
+        <div class="ad-card-right">
+          ESSENTIAL<br>PLUS<br>PREMIUM
+        </div>
       </div>
-      <div style="display: flex; gap: 8px;">✏️ 📏 🎯</div>
     </div>
 
-    <div class="chart-canvas-box">
-      <canvas id="klineCanvas"></canvas>
-    </div>
-
-    <div class="chart-toolbar">
-      <div style="display: flex; gap: 8px; font-weight: bold; font-size: 13px;">
-        BTCUSD <span style="color: #787b86;">15m</span> ✏️ 📈
+    <!-- 圖片13 圈起來的底欄，包含 Coinbase 圖示按鈕 -->
+    <div class="chart-subbar">
+      <div style="display:flex; gap:10px; font-weight:bold; font-size:13px; align-items:center;">
+        <span>BTCUSD</span>
+        <span style="color:#787b86; font-size:12px;">15m</span>
+        <span>✏️</span>
+        <span>📈</span>
       </div>
-      <!-- Coinbase 按鈕 -->
-      <div class="coinbase-btn" onclick="openCoinbase()">
-        <svg width="16" height="16" viewBox="0 0 1024 1024" fill="#fff"><path d="M512 0C229.2 0 0 229.2 0 512s229.2 512 512 512 512-229.2 512-512S794.8 0 512 0zm0 736c-123.7 0-224-100.3-224-224s100.3-224 224-224 224 100.3 224-224-100.3 224-224 224z"/></svg>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <!-- Coinbase 圖示按鈕 (替代原 17 按鈕) -->
+        <div class="coinbase-btn" onclick="openCoinbaseSheet()">
+          <svg width="16" height="16" viewBox="0 0 1024 1024" fill="#ffffff"><path d="M512 0C229.2 0 0 229.2 0 512s229.2 512 512 512 512-229.2 512-512S794.8 0 512 0zm0 736c-123.7 0-224-100.3-224-224s100.3-224 224-224 224 100.3 224-224-100.3 224-224 224z"/></svg>
+        </div>
+        <span style="font-size:16px;">💬</span>
+        <span style="font-size:16px;">↩️</span>
       </div>
     </div>
   </div>
 
-  <!-- Coinbase 面板 (圖14) -->
-  <div class="sheet-overlay" id="coinbaseSheet">
-    <div class="sheet-content">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="font-size: 20px;">Coinbase ▾</h2>
-        <div style="font-size: 18px; cursor: pointer;" onclick="closeCoinbase()">✕</div>
-      </div>
-      <div style="background: #f0f3fa; padding: 4px 8px; border-radius: 4px; display: inline-block; margin: 10px 0; font-size: 12px; font-weight: bold;">
-        Lapetos USD ▾
-      </div>
-      
-      <div class="metrics-grid">
-        <div><div class="m-title">Account balance</div><div class="m-num">5,059,260,394.12</div></div>
-        <div><div class="m-title">Realized PnL</div><div class="m-num green">+4,059,260,394.12</div></div>
-        <div><div class="m-title">Account margin</div><div class="m-num">503,902,698.53</div></div>
-        <div><div class="m-title">Equity</div><div class="m-num">3,309,103,069.43</div></div>
-        <div><div class="m-title">Unrealized PnL</div><div class="m-num red">-1,750,157,324.69</div></div>
-        <div><div class="m-title">Available funds</div><div class="m-num">2,805,200,370.9</div></div>
+  <!-- Coinbase 模擬交易彈窗 (圖片14) -->
+  <div class="modal-overlay" id="coinbaseModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">Coinbase <span style="font-size:14px; color:#787b86;">▾</span></div>
+        <div style="font-size:18px; font-weight:bold; cursor:pointer;" onclick="closeCoinbaseSheet()">✕</div>
       </div>
 
-      <div style="border-top: 1px solid #f0f3fa; padding-top: 10px; margin-top: 10px;">
-        <div style="font-size: 12px; font-weight: bold; color: #2962ff;">OKX:BTCUSDT.P</div>
-        <div style="font-size: 11px; color: #787b86; margin-bottom: 6px;">BTCUSDT PERPETUAL SWAP CONTRACT</div>
-        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+      <div class="account-select">
+        Lapetos USD ▾
+      </div>
+
+      <div class="metrics-grid">
+        <div class="m-item"><div class="m-lbl">Account balance</div><div class="m-val">5,059,260,394.12</div></div>
+        <div class="m-item"><div class="m-lbl">Realized PnL</div><div class="m-val green">+4,059,260,394.12</div></div>
+        <div class="m-item"><div class="m-lbl">Account margin</div><div class="m-val">503,902,698.53</div></div>
+        <div class="m-item"><div class="m-lbl">Equity</div><div class="m-val">3,309,103,069.43</div></div>
+        <div class="m-item"><div class="m-lbl">Unrealized PnL</div><div class="m-val red">-1,750,157,324.69</div></div>
+        <div class="m-item"><div class="m-lbl">Available funds</div><div class="m-val">2,805,200,370.9</div></div>
+      </div>
+
+      <div class="pos-box">
+        <div style="font-size:12px; font-weight:700; color:#2962ff; margin-bottom:2px;">OKX:BTCUSDT.P</div>
+        <div style="font-size:11px; color:#787b86; margin-bottom:6px;">BTCUSDT PERPETUAL SWAP CONTRACT</div>
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
           <span>Side: <b class="green">Long 100x</b></span>
           <span class="red">-192,536,524.69 USD (-0.45%)</span>
         </div>
@@ -194,88 +241,60 @@
     </div>
   </div>
 
-  <!-- 底部選單 (圖19/20) -->
+  <!-- 底部 5 大導航選單 -->
   <div class="bottom-nav">
-    <div class="nav-item active" id="tab-watchlist" onclick="switchTab('watchlist')">
+    <div class="nav-btn active" id="btn-watchlist" onclick="switchTab('watchlist')">
       📋<span>Watchlist</span>
     </div>
-    <div class="nav-item" id="tab-chart" onclick="switchTab('chart')">
+    <div class="nav-btn" id="btn-chart" onclick="switchTab('chart')">
       📊<span>Chart</span>
     </div>
-    <div class="nav-item">🧭<span>Explore</span></div>
-    <div class="nav-item">👥<span>Community</span></div>
-    <div class="nav-item">☰<span>Menu</span></div>
+    <div class="nav-btn">🧭<span>Explore</span></div>
+    <div class="nav-btn">👥<span>Community</span></div>
+    <div class="nav-btn">☰<span>Menu</span></div>
   </div>
 
   <script>
-    function switchTab(tab) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    let tvWidget = null;
+
+    function initTradingViewChart() {
+      if (tvWidget !== null) return;
       
-      document.getElementById('page-' + tab).classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
-
-      if (tab === 'chart') {
-        setTimeout(drawChart, 50);
-      }
-    }
-
-    function openCoinbase() { document.getElementById('coinbaseSheet').classList.add('open'); }
-    function closeCoinbase() { document.getElementById('coinbaseSheet').classList.remove('open'); }
-
-    // 原生 Canvas 繪製 K 線圖（保證絕不空白）
-    function drawChart() {
-      const cvs = document.getElementById('klineCanvas');
-      const box = cvs.parentElement;
-      cvs.width = box.clientWidth;
-      cvs.height = box.clientHeight;
-      const ctx = cvs.getContext('2d');
-
-      ctx.clearRect(0, 0, cvs.width, cvs.height);
-
-      // 畫背景網格
-      ctx.strokeStyle = '#f0f3fa';
-      ctx.lineWidth = 1;
-      for (let y = 30; y < cvs.height; y += 40) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cvs.width, y); ctx.stroke();
-      }
-
-      // 畫 12 根測試 K 線
-      const candles = [
-        { open: 120, close: 150, high: 160, low: 110, isGreen: true },
-        { open: 150, close: 130, high: 155, low: 120, isGreen: false },
-        { open: 130, close: 170, high: 180, low: 125, isGreen: true },
-        { open: 170, close: 160, high: 175, low: 150, isGreen: false },
-        { open: 160, close: 200, high: 210, low: 155, isGreen: true },
-        { open: 200, close: 190, high: 205, low: 180, isGreen: false },
-        { open: 190, close: 230, high: 240, low: 185, isGreen: true },
-        { open: 230, close: 210, high: 235, low: 200, isGreen: false },
-      ];
-
-      const w = cvs.width / (candles.length + 1);
-      candles.forEach((c, i) => {
-        const x = (i + 1) * w;
-        ctx.strokeStyle = c.isGreen ? '#089981' : '#f23645';
-        ctx.fillStyle = c.isGreen ? '#089981' : '#f23645';
-
-        // 影線
-        ctx.beginPath();
-        ctx.moveTo(x, cvs.height - c.high);
-        ctx.lineTo(x, cvs.height - c.low);
-        ctx.stroke();
-
-        // 實體
-        const top = cvs.height - Math.max(c.open, c.close);
-        const height = Math.abs(c.open - c.close);
-        ctx.fillRect(x - 8, top, 16, height || 2);
+      tvWidget = new TradingView.widget({
+        "autosize": true,
+        "symbol": "BINANCE:BTCUSDT",
+        "interval": "15",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "zh_TW",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "tv_chart_container",
+        "hide_side_toolbar": false,
+        "disabled_features": ["header_symbol_search", "header_compare"]
       });
     }
 
-    window.addEventListener('resize', () => {
-      if (document.getElementById('page-chart').classList.contains('active')) {
-        drawChart();
+    function switchTab(tabName) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('page-' + tabName).classList.add('active');
+      document.getElementById('btn-' + tabName).classList.add('active');
+
+      if (tabName === 'chart') {
+        setTimeout(initTradingViewChart, 100);
       }
-    });
+    }
+
+    function openCoinbaseSheet() {
+      document.getElementById('coinbaseModal').classList.add('open');
+    }
+    function closeCoinbaseSheet() {
+      document.getElementById('coinbaseModal').classList.remove('open');
+    }
   </script>
 </body>
 </html>
