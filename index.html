@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- PWA 全螢幕與圖標設定 (Coinbase 藍底白C字圖標) -->
+  <!-- PWA 全螢幕與圖標設定 (修正 iOS 顯示為黑色的問題) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Coinbase">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%230052ff'/%3E%3Cpath d='M384 225.4H227.6v61.2H374c-17.3 54.2-68.5 93.4-128.8 93.4-74.8 0-135.4-60.6-135.4-135.4s60.6-135.4 135.4-135.4c34.8 0 66.6 13 90.8 34.2l43.2-43.2C318.2 73.8 274.2 56 225.4 56 123 56 40 139 40 241.4S123 426.8 225.4 426.8c93.4 0 171-67.4 185.6-156h-27z' fill='%23ffffff'/%3E%3C/svg%3E">
+  <!-- 這裡修正了 SVG Data URI，確保背景有完整的實心色彩，避免 iOS 補上黑邊 -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230052ff'/%3E%3Cpath d='M384 225.4H227.6v61.2H374c-17.3 54.2-68.5 93.4-128.8 93.4-74.8 0-135.4-60.6-135.4-135.4s60.6-135.4 135.4-135.4c34.8 0 66.6 13 90.8 34.2l43.2-43.2C318.2 73.8 274.2 56 225.4 56 123 56 40 139 40 241.4S123 426.8 225.4 426.8c93.4 0 171-67.4 185.6-156h-27z' fill='%23ffffff'/%3E%3C/svg%3E">
 
   <title>Coinbase Advanced Trade</title>
   <style>
