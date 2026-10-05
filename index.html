@@ -7,9 +7,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Coinbase">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%230052ff'/%3E%3Cpath d='M352 256c0 53-43 96-96 96s-96-43-96-96 43-96 96-96 96 43 96 96zm64 0c0-88.4-71.6-160-160-160S96 167.6 96 256s71.6 160 160 160 160-71.6 160-160zm-96 0h64c0 53-43 96-96 96V256z' fill='%23ffffff'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDyTI3AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAUVBMVEX///8AAAD///////////////8AAAAAAAAvLy8AAAD///////////////////////////////////////////////////////////////////////8u0w7FAAAAA3RSTlMAgABF+WJCAAAC80lEQVR4Ae3QMQEAAAwCoNm/9GXwQQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECcAMx6A6uC39W8AAAAAElFTkSuQmCC">
 
-  
   <title>Coinbase Advanced Trade</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -56,9 +55,9 @@
     .tier-table-container { background: #121418; border: 1px solid #1e2329; border-radius: 16px; padding: 16px; margin-top: 10px; margin-bottom: 40px; }
     .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1e2329; font-size: 12px; color: #848e9c; }
     .tier-row:last-child { border-bottom: none; }
-    .tier-col-left { width: 30%; color: #fff; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-    .tier-col-mid { width: 35%; text-align: left; color: #848e9c; font-size: 11px; }
-    .tier-col-right { width: 35%; text-align: right; color: #848e9c; font-size: 11px; }
+    .tier-col-left { width: 34%; color: #fff; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .tier-col-mid { width: 33%; text-align: left; color: #848e9c; font-size: 11px; }
+    .tier-col-right { width: 33%; text-align: right; color: #848e9c; font-size: 11px; }
 
     .overview-section { background: #121418; border: 1px solid #1e2329; border-radius: 16px; padding: 16px; margin-top: 12px; margin-bottom: 16px; }
     .overview-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1e2329; font-size: 14px; color: #fff; }
@@ -104,7 +103,10 @@
     .history-panel.active { display: flex; }
 
     .cb-icon { width: 20px; height: 20px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-    .diamond-icon { display: inline-block; width: 10px; height: 10px; transform: rotate(45deg); flex-shrink: 0; }
+    
+    /* 100% 精準多切面立體寶石 SVG 徽章 */
+    .gem-icon { display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; align-items: center; justify-content: center; }
+    .silver-check { display: inline-flex; width: 14px; height: 14px; border-radius: 50%; background: #a6a6a6; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 4px; }
   </style>
 </head>
 <body>
@@ -198,72 +200,53 @@
             <div>融資利率 <div style="color:#0ecb81; font-weight:700; font-size:14px;">0.001622%/小時</div></div>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
-            <button style="padding:10px; background:#0ecb81; border:none; border-radius:8px; color:#000; font-weight:800; font-size:13px; cursor:pointer;">買入</button>
-            <button style="padding:10px; background:#181a20; border:1px solid #2b313a; border-radius:8px; color:#fff; font-weight:800; font-size:13px; cursor:pointer;">賣出</button>
+            <button onclick="placeLimitOrder('buy')" style="padding:10px; background:#0ecb81; border:none; border-radius:8px; color:#000; font-weight:800; font-size:13px; cursor:pointer;">限價買入</button>
+            <button onclick="placeLimitOrder('sell')" style="padding:10px; background:#181a20; border:1px solid #2b313a; border-radius:8px; color:#fff; font-weight:800; font-size:13px; cursor:pointer;">限價賣出</button>
           </div>
-          <div style="font-size:12px; color:#848e9c; display:flex; justify-content:space-between; background:#121418; padding:8px; border-radius:8px;">
+          
+          <div onclick="openLeverageModal()" style="font-size:12px; color:#848e9c; display:flex; justify-content:space-between; background:#121418; padding:8px; border-radius:8px; cursor:pointer;">
             <span>保證金/槓桿</span>
-            <span style="color:#fff; font-weight:700;">跨市場保證金 ▾ 50x ▾</span>
+            <span style="color:#fff; font-weight:700;" id="leverage-display">跨市場保證金 ▾ 50x ▾</span>
           </div>
+
           <div style="font-size:12px; color:#848e9c; display:flex; justify-content:space-between; background:#121418; padding:8px; border-radius:8px;">
             <span>可動用的保證金 (USDC)</span>
-            <span style="color:#fff; font-weight:700;">0.00 ⊙</span>
+            <span style="color:#fff; font-weight:700;" id="available-margin-display">3,857,971,997.00 ⊙</span>
           </div>
           <div style="background:#121418; border:1px solid #2b313a; border-radius:8px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:13px;">限額</span>
+            <span style="font-size:13px;">限額掛單</span>
             <span style="font-size:13px; color:#848e9c;">▾</span>
           </div>
+          
           <div style="background:#121418; border:1px solid #2b313a; border-radius:8px; padding:8px 10px;">
-            <div style="font-size:11px; color:#848e9c;">限制價格</div>
+            <div style="font-size:11px; color:#848e9c;">目標掛單價格 (Limit Price)</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
-              <span style="font-weight:700; font-size:14px;" class="fs-price-display">86,221.3</span>
-              <span style="font-size:11px; color:#2a75cb;">中間 | 買價</span>
+              <input type="number" id="input-limit-price" value="86522.59" style="background:transparent; border:none; color:#fff; font-weight:700; font-size:14px; outline:none; width:70%;">
+              <span style="font-size:11px; color:#2a75cb;">限價設定</span>
             </div>
           </div>
+
           <div style="background:#121418; border:1px solid #2b313a; border-radius:8px; padding:8px 10px;">
-            <div style="font-size:11px; color:#848e9c;">數量</div>
+            <div style="font-size:11px; color:#848e9c;">數量 (USDC)</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
-              <span style="font-weight:700; font-size:14px;">≈ 8.63</span>
+              <input type="number" id="input-quantity" value="507997" style="background:transparent; border:none; color:#fff; font-weight:700; font-size:14px; outline:none; width:70%;">
               <span style="font-size:11px; color:#fff; font-weight:700;">USDC ▾</span>
             </div>
-            <div style="font-size:10px; color:#848e9c; margin-top:2px;">~0.0001 BTC</div>
           </div>
-          <button onclick="alert('新增資金成功！')" style="width:100%; padding:12px; background:#ffffff; border:none; border-radius:12px; color:#000; font-weight:800; font-size:14px; cursor:pointer; margin-top:4px;">新增資金以繼續</button>
+
+          <button onclick="placeLimitOrder('buy')" style="width:100%; padding:12px; background:#ffffff; border:none; border-radius:12px; color:#000; font-weight:800; font-size:14px; cursor:pointer; margin-top:4px;">提交限價掛單</button>
         </div>
 
-        <!-- 右側訂單簿 -->
-        <div style="width: 120px; display:flex; flex-direction:column; font-size:10px; color:#848e9c; gap:2px;">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:4px;"><span>價格(USDC)</span><span>金額(BTC)</span></div>
-          <div style="display:flex; justify-content:space-between; color:#f6465d;"><span>86,647.0</span><span>0.0930</span></div>
-          <div style="display:flex; justify-content:space-between; color:#f6465d;"><span>86,646.9</span><span>0.0877</span></div>
-          <div style="display:flex; justify-content:space-between; color:#0ecb81; margin:8px 0; font-weight:700; font-size:12px;"><span class="fs-price-display">86,522.59</span><span>↑</span></div>
-        </div>
+        <div style="width: 130px; display:flex; flex-direction:column; font-size:10px; color:#848e9c; gap:2px;" id="live-order-book"></div>
       </div>
 
-      <!-- 下方持倉頭寸面板 -->
       <div style="border-top:1px solid #1e2329; margin-top:12px; padding: 12px 16px; background:#0b0e11;">
         <div class="trade-sub-tabs">
-          <div class="trade-sub-tab active" onclick="switchTradeSubTab(this, 'positions')">頭寸 (1)</div>
-          <div class="trade-sub-tab" onclick="switchTradeSubTab(this, 'open-orders')">未結訂單 (0)</div>
+          <div class="trade-sub-tab active" onclick="switchTradeSubTab(this, 'positions')">頭寸 (<span id="positions-count">1</span>)</div>
+          <div class="trade-sub-tab" onclick="switchTradeSubTab(this, 'open-orders')">未結訂單 (<span id="open-orders-count">0</span>)</div>
           <div class="trade-sub-tab" onclick="switchTradeSubTab(this, 'history-orders')">訂單歷史</div>
         </div>
-        <div id="tradeSubContentContainer" style="margin-top:12px;">
-          <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="background:#0052ff; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700;">OKX:BTCUSDT.P</span>
-              <span style="color:#0ecb81; font-weight:700; font-size:13px;">Long (100x)</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
-              <span>數量: 507,997.9987</span>
-              <span>均價: 84,528.7</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
-              <span>現價: <strong style="color:#fff;" class="fs-price-display">86,526.02</strong></span>
-              <span>未實現盈虧: <strong id="pos-upnl-trade" style="color:#0ecb81;">+$903,865,599.15 (+210.49%)</strong></span>
-            </div>
-            <button onclick="alert('平倉成功！')" style="margin-top:4px; background:#2b313a; color:#fff; border:none; padding:6px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; width:100%;">平倉 (Close Position)</button>
-          </div>
-        </div>
+        <div id="tradeSubContentContainer" style="margin-top:12px;"></div>
       </div>
     </div>
 
@@ -361,6 +344,7 @@
       </div>
     </div>
 
+    <!-- 投資組合頂部分頁：預設選中「概覽」 -->
     <div class="category-tabs" style="margin-bottom:14px; border-bottom:1px solid #1e2329; padding:0 16px;" id="mainPortfolioTabs">
       <div class="tab active" onclick="switchMainPortfolioTab(this, 'overview')">概覽</div>
       <div class="tab" onclick="switchMainPortfolioTab(this, 'fees')">費用 <span style="font-size:10px; background:#2b313a; color:#fff; padding:2px 6px; border-radius:4px; margin-left:6px;">INT</span></div>
@@ -440,7 +424,7 @@
         <div onclick="closeSideDrawer()" style="cursor:pointer; font-size:20px; color:#848e9c;">✕</div>
       </div>
       <div style="display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700; color:#fff; padding:6px 0; cursor:pointer;">
-        <span class="diamond-icon" style="background:#2a75cb;"></span> VIP 8 ✓ >
+        <span class="gem-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2L3 9l9 13 9-13z" fill="url(#blueGrad)"/><path d="M12 2L3 9l9 4z" fill="#93c5fd" opacity="0.6"/><path d="M12 2l9 7-9 4z" fill="#3b82f6"/></svg></span> VIP 8 <span class="silver-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></span> >
       </div>
 
       <div style="font-size:12px; color:#848e9c; margin-top:4px;">更多功能</div>
@@ -523,19 +507,53 @@
       <div onclick="closeSubPageView('cashSubView')" style="cursor:pointer; font-size:20px; color:#fff;">←</div>
       <div style="font-weight:800; font-size:18px;">現金設定</div>
     </div>
-    <div class="profile-item-row"><div class="profile-label">可用現金餘額</div><div class="profile-val">US$3,857,971,997.00</div></div>
+    <div class="profile-item-row"><div class="profile-label">可用現金餘額</div><div class="profile-val" id="available-cash-display">US$3,857,971,997.00</div></div>
   </div>
+
+  <!-- 全域 SVG 漸層定義 -->
+  <svg width="0" height="0" style="position:absolute;">
+    <defs>
+      <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#60a5fa"/>
+        <stop offset="50%" stop-color="#2563eb"/>
+        <stop offset="100%" stop-color="#1d4ed8"/>
+      </linearGradient>
+      <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fde047"/>
+        <stop offset="50%" stop-color="#f59e0b"/>
+        <stop offset="100%" stop-color="#b45309"/>
+      </linearGradient>
+      <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f8fafc"/>
+        <stop offset="50%" stop-color="#cbd5e1"/>
+        <stop offset="100%" stop-color="#64748b"/>
+      </linearGradient>
+      <linearGradient id="bronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fdba74"/>
+        <stop offset="50%" stop-color="#d97706"/>
+        <stop offset="100%" stop-color="#78350f"/>
+      </linearGradient>
+    </defs>
+  </svg>
 
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
   <script>
-    let accountBalance = 3598123446.12;
-    let presetPosition = {
-      quantity: 507997.9987,
-      avgFillPrice: 84528.7,
-      leverage: 100,
-      active: true
-    };
+    let accountBalance = 3857971997.00;
+    let currentLeverage = 50;
+    
+    let userPositions = [
+      {
+        id: 1,
+        symbol: "OKX:BTCUSDT.P",
+        type: "Long (50x)",
+        quantity: 507997.9987,
+        avgPrice: 84528.7,
+        leverage: 50
+      }
+    ];
+
+    let openOrders = [];
     
     let currentCoinPrices = {
       "BTC-USDC": { price: 86546.72, change: "↗ 2.19%", green: true },
@@ -563,21 +581,58 @@
 
     let activeSelectedCoin = "BTC-USDC";
 
-    let getUsdcIcon = () => `<svg width="32" height="32" viewBox="0 0 32 32" style="border-radius:50%; flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#2775ca"/><path d="M16 7c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm1.35 13.5v1.25h-2.7v-1.25c-1.85-.25-3.2-1.75-3.2-3.6h2.15c0 .85.7 1.5 1.55 1.5.85 0 1.55-.65 1.55-1.5 0-.95-.75-1.4-2.1-1.75-1.8-.45-3.4-1.15-3.4-3.1 0-1.7 1.35-3.1 3.1-3.35v-1.25h2.7v1.25c1.65.25 2.9 1.55 3 3.3h-2.15c-.1-.75-.75-1.3-1.5-1.3-.75 0-1.45.55-1.45 1.3 0 .85.75 1.25 2.1 1.6 1.95.5 3.4 1.2 3.4 3.25 0 1.75-1.35 3.1-3.15 3.35z" fill="#ffffff"/></svg>`;
-    let getEthIcon = () => `<svg width="32" height="32" viewBox="0 0 32 32" style="border-radius:50%; flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#627eea"/><path d="M16 5l-8.5 14L16 23.5l8.5-4.5L16 5zm0 13.5l-5-3 5-7.5 5 7.5-5 3z" fill="#ffffff"/></svg>`;
-    let getBtcIcon = () => `<svg width="32" height="32" viewBox="0 0 32 32" style="border-radius:50%; flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#f7931a"/><path d="M21.5 14.25c.35-2.3-1.45-3.55-3.9-4.4l.8-3.2-1.95-.5-.8 3.2c-.5-.12-1.02-.24-1.54-.36l.8-3.2-1.95-.5-.8 3.2c-.42-.1-.83-.2-1.23-.3l-2.65-.66-.5 2.05s1.42.33 1.4-.35c0 0 .35 1.4.35 1.4s-.85.2-1.25.3l-.02.08-2.65-.66-.5 2.05 1.42.36c.33.08.5.3.4.65l-1.4 5.6c-.08.3-.32.52-.65.44l-1.42-.36-.5 2.05 2.65.66c.45.1.9.2 1.35.3l-.8 3.2 1.95.5.8-3.2c.52.13 1.04.25 1.56.37l-.8 3.2 1.95.5.8-3.2c3.2.6 5.6.35 6.6-2.55.8-2.3-.05-3.63-1.7-4.5 1.2-.28 2.1-1.08 2.35-2.73zm-4.2 5.95c-.58 2.35-4.5 1.08-5.78.77l1.03-4.12c1.28.32 5.33.95 4.75 3.35zm.52-6.02c-.52 2.1-3.8 1.03-4.88.77l.93-3.75c1.08.27 4.47.88 3.95 2.98z" fill="#fff"/></svg>`;
-    let getSolIcon = () => `<svg width="32" height="32" viewBox="0 0 32 32" style="border-radius:50%; flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#14f195"/></svg>`;
-    let getXrpIcon = () => `<svg width="32" height="32" viewBox="0 0 32 32" style="border-radius:50%; flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#23292f"/><path d="M8 10l5 6-5 6h3l5-6-5-6H8zm11 0l-5 6 5 6h-3l-5-6 5-6h3z" fill="#fff"/></svg>`;
-    let getZecIcon = () => `<svg width="32" height="32" viewBox="0 0 32 32" style="border-radius:50%; flex-shrink:0;"><circle cx="16" cy="16" r="16" fill="#f4b728"/><path d="M13.5 10h5v2h-3l-3 4h3v2h-5v-2h3l3-4h-3z" fill="#fff"/></svg>`;
+    // 100% 精準立體多切面寶石 SVG 產生器
+    let getGemSvg = (gradId) => `
+      <svg class="gem-icon" viewBox="0 0 24 24">
+        <path d="M12 2L3 9l9 13 9-13z" fill="url(#${gradId})"/>
+        <path d="M12 2L3 9l9 4z" fill="#ffffff" opacity="0.45"/>
+        <path d="M12 2l9 7-9 4z" fill="#ffffff" opacity="0.25"/>
+        <path d="M3 9l9 13L12 9z" fill="#000000" opacity="0.2"/>
+      </svg>
+    `;
+
+    let svgBtc = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#f7931a"/><path d="M21.5 14.25c.35-2.3-1.45-3.55-3.9-4.4l.8-3.2-1.95-.5-.8 3.2c-.5-.12-1.02-.24-1.54-.36l.8-3.2-1.95-.5-.8 3.2c-.42-.1-.83-.2-1.23-.3l-2.65-.66-.5 2.05s1.42.33 1.4-.35c0 0 .35 1.4.35 1.4s-.85.2-1.25.3l-.02.08-2.65-.66-.5 2.05 1.42.36c.33.08.5.3.4.65l-1.4 5.6c-.08.3-.32.52-.65.44l-1.42-.36-.5 2.05 2.65.66c.45.1.9.2 1.35.3l-.8 3.2 1.95.5.8-3.2c.52.13 1.04.25 1.56.37l-.8 3.2 1.95.5.8-3.2c3.2.6 5.6.35 6.6-2.55.8-2.3-.05-3.63-1.7-4.5 1.2-.28 2.1-1.08 2.35-2.73zm-4.2 5.95c-.58 2.35-4.5 1.08-5.78.77l1.03-4.12c1.28.32 5.33.95 4.75 3.35zm.52-6.02c-.52 2.1-3.8 1.03-4.88.77l.93-3.75c1.08.27 4.47.88 3.95 2.98z" fill="#fff"/></svg>`;
+    let svgEth = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#627eea"/><path d="M16 5l-8.5 14L16 23.5l8.5-4.5L16 5zm0 13.5l-5-3 5-7.5 5 7.5-5 3z" fill="#fff"/></svg>`;
+    let svgSol = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#14f195"/><path d="M9.5 21.5h11.5l1.5-2.5h-11.5l-1.5 2.5zm0-6h11.5l1.5-2.5h-11.5l-1.5 2.5zm13-6l-1.5-2.5H9.5l-1.5 2.5h15z" fill="#000"/></svg>`;
+    let svgXrp = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#23292f"/><path d="M8 10l5 6-5 6h3l5-6-5-6H8zm11 0l-5 6 5 6h-3l-5-6 5-6h3z" fill="#fff"/></svg>`;
+    let svgUsdc = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#2775ca"/><path d="M16 7c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm1.35 13.5v1.25h-2.7v-1.25c-1.85-.25-3.2-1.75-3.2-3.6h2.15c0 .85.7 1.5 1.55 1.5.85 0 1.55-.65 1.55-1.5 0-.95-.75-1.4-2.1-1.75-1.8-.45-3.4-1.15-3.4-3.1 0-1.7 1.35-3.1 3.1-3.35v-1.25h2.7v1.25c1.65.25 2.9 1.55 3 3.3h-2.15c-.1-.75-.75-1.3-1.5-1.3-.75 0-1.45.55-1.45 1.3 0 .85.75 1.25 2.1 1.6 1.95.5 3.4 1.2 3.4 3.25 0 1.75-1.35 3.1-3.15 3.35z" fill="#fff"/></svg>`;
+    let svgZec = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#f4b728"/><path d="M13.5 10h5v2h-3l-3 4h3v2h-5v-2h3l3-4h-3z" fill="#fff"/></svg>`;
+    let svgQnt = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#000"/><path d="M10 10h12v12H10z" fill="#2a75cb"/></svg>`;
+    let svgNear = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#000"/><path d="M11 10v12h2.5V14.5l5.5 7.5h2V10h-2.5v7.5l-5.5-7.5H11z" fill="#fff"/></svg>`;
+    let svgSui = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#3a82f6"/><path d="M16 9l6 6-6 6-6-6 6-6z" fill="#fff"/></svg>`;
+    let svgZro = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#1b1b1b"/><text x="16" y="21" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Z</text></svg>`;
+    let svgPump = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#9333ea"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">P</text></svg>`;
+    let svgHype = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#ef4444"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">H</text></svg>`;
+    let svgSand = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0088cc"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">S</text></svg>`;
+    let svgUni = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#ff007a"/><path d="M16 9c-3.9 0-7 3.1-7 7s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm0 11.5c-2.5 0-4.5-2-4.5-4.5s2-4.5 4.5-4.5 4.5 2 4.5 4.5-2 4.5-4.5 4.5z" fill="#fff"/></svg>`;
+    let svgLtc = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#345d9d"/><path d="M10 21l2.5-10h2l-1.5 6h4.5l-.8 3h-7.7zm4.5-9l-1.5 6h2l1.5-6h-2zm4.5-4l-1.5 6h-2l1.5-6h-2l.8-3h2.7l-1 4h2l-.8 3h-2l-1.5 6h2l1.5-6h2l-.8 3h2.7l-.8 3h-7.7z" fill="#fff"/></svg>`;
+    let svgLink = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#375bd2"/><path d="M16 8l-7 4v8l7 4 7-4v-8l-7-4zm0 2.5l5 2.8v5.4l-5 2.8-5-2.8v-5.4l5-2.8z" fill="#fff"/></svg>`;
+    let svgUsdt = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#26a17b"/><path d="M17.5 14V9.5h4V7H10.5v2.5h4V14h-3.5v3h3.5v7.5h3V17h3.5v-3H17.5z" fill="#fff"/></svg>`;
+    let svgDai = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#f4b728"/><path d="M11 10h4.5c3 0 5 1.5 5 4s-2 4-5 4H11V10zm2.5 2v6h2c1.8 0 3-.9 3-3s-1.2-3-3-3h-2z" fill="#fff"/></svg>`;
+    let svgEurc = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#003399"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">€</text></svg>`;
+    let svgGusd = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0078d4"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">G</text></svg>`;
+    let svgAudd = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#5865f2"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">A</text></svg>`;
+    let svgGyen = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0052ff"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">¥</text></svg>`;
+    let svgPax = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0088cc"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">P</text></svg>`;
+    let svgPyusd = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#0070ba"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">P</text></svg>`;
+    let svgTgbp = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#888"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">£</text></svg>`;
+    let svgUsd1 = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#f7931a"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">1</text></svg>`;
+    let svgBrl = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#009b3a"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">R$</text></svg>`;
+    let svgCad = `<svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#ff0000"/><text x="16" y="21" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">C$</text></svg>`;
 
     let coinIcons = { 
-      "BTC": getBtcIcon(), 
-      "ETH": getEthIcon(), 
-      "SOL": getSolIcon(), 
-      "XRP": getXrpIcon(), 
-      "USDC": getUsdcIcon(),
-      "ZEC": getZecIcon()
+      "BTC": svgBtc, "ETH": svgEth, "SOL": svgSol, "XRP": svgXrp, 
+      "USDC": svgUsdc, "ZEC": svgZec, "QNT": svgQnt, "NEAR": svgNear, 
+      "SUI": svgSui, "ZRO": svgZro, "PUMP": svgPump, "HYPE": svgHype,
+      "SAND": svgSand, "UNI": svgUni, "LTC": svgLtc, "LINK": svgLink
     };
+
+    let getDoubleCoinSvg = (svg1, svg2) => `
+      <div style="display:flex; align-items:center; position:relative; width:36px; height:24px; flex-shrink:0;">
+        <div style="width:24px; height:24px; border-radius:50%; position:absolute; left:0; z-index:2; overflow:hidden; border:1px solid #000; display:flex; align-items:center; justify-content:center;">${svg1}</div>
+        <div style="width:24px; height:24px; border-radius:50%; position:absolute; left:12px; z-index:1; overflow:hidden; border:1px solid #000; display:flex; align-items:center; justify-content:center;">${svg2}</div>
+      </div>
+    `;
 
     function updateLivePrices() {
       Object.keys(currentCoinPrices).forEach(key => {
@@ -600,21 +655,162 @@
       let changeDisp = document.getElementById('fs-change-display');
       if(changeDisp) changeDisp.innerText = coinData.change;
 
-      if (presetPosition.active) {
-        let btcPrice = currentCoinPrices["BTC-USDC"].price;
-        let diff = btcPrice - presetPosition.avgFillPrice;
-        let unrealizedPnL = diff * presetPosition.quantity;
-        let pnlPercent = (diff / presetPosition.avgFillPrice) * presetPosition.leverage * 100;
-        let currentEquity = accountBalance + unrealizedPnL;
+      updateLiveOrderBook(coinData.price);
+      checkOpenOrdersMatching(coinData.price);
+      updatePositionsUI();
+    }
 
-        let upnlEl = document.getElementById('pos-upnl-trade');
-        if(upnlEl) {
-          upnlEl.innerText = (unrealizedPnL >= 0 ? "+$" : "-$") + Math.abs(unrealizedPnL).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) + ` (+${pnlPercent.toFixed(2)}%)`;
+    function updateLiveOrderBook(basePrice) {
+      let bookContainer = document.getElementById('live-order-book');
+      if (!bookContainer) return;
+      
+      let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:4px; font-weight:700;"><span>價格(USDC)</span><span>金額(BTC)</span></div>`;
+      
+      for(let i = 8; i >= 1; i--) {
+        let p = (basePrice + i * 0.75).toFixed(2);
+        let q = (0.04 + Math.random() * 0.08).toFixed(4);
+        html += `<div style="display:flex; justify-content:space-between; color:#f6465d;"><span>${p}</span><span>${q}</span></div>`;
+      }
+
+      html += `<div style="display:flex; justify-content:space-between; color:#0ecb81; margin:6px 0; font-weight:800; font-size:12px;"><span class="fs-price-display">${basePrice.toFixed(2)}</span><span>↑</span></div>`;
+
+      for(let i = 1; i <= 8; i++) {
+        let p = (basePrice - i * 0.75).toFixed(2);
+        let q = (0.04 + Math.random() * 0.08).toFixed(4);
+        html += `<div style="display:flex; justify-content:space-between; color:#0ecb81;"><span>${p}</span><span>${q}</span></div>`;
+      }
+
+      bookContainer.innerHTML = html;
+    }
+
+    function openLeverageModal() {
+      let modalBody = document.getElementById('modalDynamicBody');
+      if (!modalBody) return;
+
+      modalBody.innerHTML = `
+        <div style="font-size: 18px; font-weight: 800; margin-bottom: 4px;">調整槓桿倍數</div>
+        <div style="font-size: 13px; color: #848e9c; margin-bottom: 14px;">請選擇您要使用的合約槓桿：</div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;">
+          <button onclick="setLeverage(1)" style="padding:12px; background:${currentLeverage===1?'#0052ff':'#181a20'}; color:#fff; border:1px solid #2b313a; border-radius:10px; font-weight:700; cursor:pointer;">1x</button>
+          <button onclick="setLeverage(10)" style="padding:12px; background:${currentLeverage===10?'#0052ff':'#181a20'}; color:#fff; border:1px solid #2b313a; border-radius:10px; font-weight:700; cursor:pointer;">10x</button>
+          <button onclick="setLeverage(20)" style="padding:12px; background:${currentLeverage===20?'#0052ff':'#181a20'}; color:#fff; border:1px solid #2b313a; border-radius:10px; font-weight:700; cursor:pointer;">20x</button>
+          <button onclick="setLeverage(50)" style="padding:12px; background:${currentLeverage===50?'#0052ff':'#181a20'}; color:#fff; border:1px solid #2b313a; border-radius:10px; font-weight:700; cursor:pointer;">50x</button>
+          <button onclick="setLeverage(75)" style="padding:12px; background:${currentLeverage===75?'#0052ff':'#181a20'}; color:#fff; border:1px solid #2b313a; border-radius:10px; font-weight:700; cursor:pointer;">75x</button>
+          <button onclick="setLeverage(100)" style="padding:12px; background:${currentLeverage===100?'#0052ff':'#181a20'}; color:#fff; border:1px solid #2b313a; border-radius:10px; font-weight:700; cursor:pointer;">100x</button>
+        </div>
+        <button onclick="closeActionModal()" style="width:100%; padding:14px; background:#181a20; border:1px solid #2b313a; border-radius:12px; color:#fff; font-weight:700; cursor:pointer;">確定</button>
+      `;
+      document.getElementById('actionModal').classList.add('active');
+    }
+
+    function setLeverage(lvl) {
+      currentLeverage = lvl;
+      let display = document.getElementById('leverage-display');
+      if(display) display.innerText = `跨市場保證金 ▾ ${lvl}x ▾`;
+      closeActionModal();
+    }
+
+    function checkOpenOrdersMatching(currentPrice) {
+      if (openOrders.length === 0) return;
+      let remainingOrders = [];
+      openOrders.forEach(order => {
+        let matched = false;
+        if (order.side.includes("Long") && currentPrice <= order.limitPrice) {
+          matched = true;
+        } else if (order.side.includes("Short") && currentPrice >= order.limitPrice) {
+          matched = true;
         }
-        let tradeEq = document.getElementById('trade-equity-display');
-        if(tradeEq) {
-          tradeEq.innerText = "$" + currentEquity.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+
+        if (matched) {
+          userPositions.push({
+            id: Date.now() + Math.random(),
+            symbol: order.symbol,
+            type: order.side,
+            quantity: order.quantity,
+            avgPrice: order.limitPrice,
+            leverage: order.leverage
+          });
+          alert(`您的限價單 (${order.symbol} ${order.side} @ ${order.limitPrice}) 已觸發成交！`);
+        } else {
+          remainingOrders.push(order);
         }
+      });
+      openOrders = remainingOrders;
+      updateOpenOrdersUI();
+    }
+
+    function updatePositionsUI() {
+      let countEl = document.getElementById('positions-count');
+      if(countEl) countEl.innerText = userPositions.length;
+
+      let btcPrice = currentCoinPrices["BTC-USDC"].price;
+      let totalUnrealizedPnL = 0;
+
+      let html = '';
+      userPositions.forEach((pos, index) => {
+        let diff = btcPrice - pos.avgPrice;
+        let pnl = diff * pos.quantity * (pos.type.includes("Long") ? 1 : -1);
+        let pnlPercent = (diff / pos.avgPrice) * 100 * (pos.type.includes("Long") ? 1 : -1) * (pos.leverage || 50);
+        totalUnrealizedPnL += pnl;
+
+        let pnlColor = pnl >= 0 ? '#0ecb81' : '#f6465d';
+        let pnlSign = pnl >= 0 ? '+$' : '-$';
+
+        html += `
+          <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px; margin-bottom:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="background:#0052ff; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700;">${pos.symbol}</span>
+              <span style="color:${pnlColor}; font-weight:700; font-size:13px;">${pos.type}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
+              <span>數量: ${pos.quantity.toLocaleString()}</span>
+              <span>均價: ${pos.avgPrice.toLocaleString()}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
+              <span>現價: <strong style="color:#fff;" class="fs-price-display">${btcPrice.toFixed(2)}</strong></span>
+              <span>未實現盈虧: <strong style="color:${pnlColor};">${pnlSign}${Math.abs(pnl).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})} (${pnlPercent >= 0 ? '+' : ''}${pnlPercent.toFixed(2)}%)</strong></span>
+            </div>
+            <button onclick="closePosition(${index})" style="margin-top:4px; background:#2b313a; color:#fff; border:none; padding:6px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; width:100%;">平倉 (Close Position)</button>
+          </div>
+        `;
+      });
+
+      let container = document.getElementById('tradeSubContentContainer');
+      if(container && document.querySelector('.trade-sub-tab.active')?.innerText.includes('頭寸')) {
+        container.innerHTML = html === '' ? `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">目前沒有持倉頭寸</div>` : html;
+      }
+
+      let currentEquity = accountBalance + totalUnrealizedPnL;
+      let tradeEq = document.getElementById('trade-equity-display');
+      if(tradeEq) {
+        tradeEq.innerText = "$" + currentEquity.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+    }
+
+    function updateOpenOrdersUI() {
+      let countEl = document.getElementById('open-orders-count');
+      if(countEl) countEl.innerText = openOrders.length;
+
+      let html = '';
+      openOrders.forEach((order, index) => {
+        html += `
+          <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px; margin-bottom:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="background:#2b313a; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700;">${order.symbol} (限價單)</span>
+              <span style="color:#f0b90b; font-weight:700; font-size:13px;">${order.side}</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
+              <span>數量: ${order.quantity.toLocaleString()}</span>
+              <span>掛單價: ${order.limitPrice.toLocaleString()}</span>
+            </div>
+            <button onclick="cancelOrder(${index})" style="margin-top:4px; background:#f6465d22; color:#f6465d; border:1px solid #f6465d; padding:6px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; width:100%;">取消掛單</button>
+          </div>
+        `;
+      });
+
+      let container = document.getElementById('tradeSubContentContainer');
+      if(container && document.querySelector('.trade-sub-tab.active')?.innerText.includes('未結訂單')) {
+        container.innerHTML = html === '' ? `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">您沒有未結掛單</div>` : html;
       }
     }
 
@@ -626,15 +822,15 @@
         { name: "XRP-USDC", vol: "量 4159.16万", symbol: "XRP" },
         { name: "QNT-USDC", vol: "量 4002.32万", symbol: "QNT" },
         { name: "SOL-USDC", vol: "量 3319.43万", symbol: "SOL" },
-        { name: "NEAR-USDC", vol: "量 2720.59万", symbol: "USDC" },
-        { name: "SUI-USDC", vol: "量 1673.03万", symbol: "USDC" },
-        { name: "ZRO-USDC", vol: "量 1541.77万", symbol: "USDC" },
-        { name: "PUMP-USDC", vol: "量 1372.12万", symbol: "USDC" },
-        { name: "HYPE-USDC", vol: "量 1193.09万", symbol: "USDC" },
-        { name: "SAND-USDC", vol: "量 992.15万", symbol: "USDC" },
-        { name: "UNI-USDC", vol: "量 881.40万", symbol: "USDC" },
-        { name: "LTC-USDC", vol: "量 752.10万", symbol: "USDC" },
-        { name: "LINK-USDC", vol: "量 623.44万", symbol: "USDC" }
+        { name: "NEAR-USDC", vol: "量 2720.59万", symbol: "NEAR" },
+        { name: "SUI-USDC", vol: "量 1673.03万", symbol: "SUI" },
+        { name: "ZRO-USDC", vol: "量 1541.77万", symbol: "ZRO" },
+        { name: "PUMP-USDC", vol: "量 1372.12万", symbol: "PUMP" },
+        { name: "HYPE-USDC", vol: "量 1193.09万", symbol: "HYPE" },
+        { name: "SAND-USDC", vol: "量 992.15万", symbol: "SAND" },
+        { name: "UNI-USDC", vol: "量 881.40万", symbol: "UNI" },
+        { name: "LTC-USDC", vol: "量 752.10万", symbol: "LTC" },
+        { name: "LINK-USDC", vol: "量 623.44万", symbol: "LINK" }
       ],
       perpetual: [
         { name: "BTC Perp", tag: "50X", vol: "DRB · 量 2.21亿", symbol: "BTC" },
@@ -642,7 +838,7 @@
         { name: "SOL Perp", tag: "50X", vol: "DRB · 量 12.15亿", symbol: "SOL" },
         { name: "XRP Perp", tag: "50X", vol: "DRB · 量 847.32万", symbol: "XRP" },
         { name: "ZEC Perp", tag: "25X", vol: "DRB · 量 484.41万", symbol: "ZEC" },
-        { name: "NEAR Perp", tag: "25X", vol: "DRB · 量 405.43万", symbol: "USDC" }
+        { name: "NEAR Perp", tag: "25X", vol: "DRB · 量 405.43万", symbol: "NEAR" }
       ],
       watchlist: []
     };
@@ -659,7 +855,7 @@
             <div style="text-align:right;"><div style="font-weight:700;">NT$0.00</div></div>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
-            <div style="display:flex; align-items:center; gap:10px;">${getUsdcIcon()}<div><div>USDC <span style="font-size:10px; background:#0ecb8122; color:#0ecb81; padding:2px 6px; border-radius:4px;">高達 12.00% APY</span></div></div></div>
+            <div style="display:flex; align-items:center; gap:10px;">${svgUsdc}<div><div>USDC <span style="font-size:10px; background:#0ecb8122; color:#0ecb81; padding:2px 6px; border-radius:4px;">高達 12.00% APY</span></div></div></div>
             <div style="text-align:right;"><div style="font-weight:700;">NT$138,550,422.38</div></div>
           </div>
         </div>
@@ -693,6 +889,18 @@
         </div>
       `,
       'fees': `
+        <div style="background:#121418; border:1px solid #1e2329; border-radius:16px; padding:16px; margin-bottom:14px;">
+          <div style="font-size:12px; color:#848e9c; margin-bottom:4px;">您目前的所屬層級</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+            <span class="gem-icon">${getGemSvg('blueGrad')}</span> VIP 8 <span class="silver-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+          </div>
+          <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:6px;">等級進度</div>
+          <div style="font-size:12px; color:#848e9c; line-height:1.5; margin-bottom:12px;">您所屬的層級會取決於對您來說最有利用的交易量或帳戶餘額標準，所有的層級都可以讓您享有更優惠的費用機制和權益。</div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0; border-bottom:1px solid #1e2329;"><span>即時外匯交易的交易量 (過去 30 天內)</span><span style="color:#fff;">US$100,000,000.00</span></div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0; border-bottom:1px solid #1e2329;"><span>過去 30 天內的交易量 (永續產品/期貨)</span><span style="color:#fff;">US$500,000,000.00</span></div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0;"><span>資產餘額</span><span style="color:#fff;">US$138,550,422.38</span></div>
+        </div>
+
         <div class="category-tabs" style="margin-bottom:14px; border-bottom:none; padding:0;" id="portfolioSubTabs">
           <div class="tab active" onclick="switchPortfolioSubTab(this, 'fee-tier')">費用</div>
           <div class="tab" onclick="switchPortfolioSubTab(this, 'req-tier')">層級要求</div>
@@ -706,50 +914,63 @@
       'fee-tier': `
         <div class="tier-table-container">
           <div class="tier-row" style="font-size:11px; border-bottom:1px solid #1e2329; padding-bottom:6px; color:#848e9c;">
-            <span style="width:30%;">層級</span><span style="width:35%; text-align:left;">外匯交易 (掛|吃)</span><span style="width:35%; text-align:right;">永續產品/期貨 (掛|吃)</span>
+            <span style="width:34%;">層級</span><span style="width:33%; text-align:left;">外匯交易 (掛|吃)</span><span style="width:33%; text-align:right;">永續產品/期貨 (掛|吃)</span>
           </div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#2a75cb;"></span> VIP 8 <span style="color:#0ecb81;">✓</span></span><span class="tier-col-mid">0.0000% | 0.0280%</span><span class="tier-col-right">-0.0040% | 0.0170%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#d4af37;"></span> VIP 7</span><span class="tier-col-mid">0.0050% | 0.0330%</span><span class="tier-col-right">-0.0030% | 0.0175%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#a6a6a6;"></span> VIP 6</span><span class="tier-col-mid">0.0100% | 0.0350%</span><span class="tier-col-right">-0.0020% | 0.0185%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#cd7f32;"></span> VIP 5</span><span class="tier-col-mid">0.0150% | 0.0400%</span><span class="tier-col-right">0.0000% | 0.0200%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#2a75cb;"></span> VIP 4</span><span class="tier-col-mid">0.0230% | 0.0450%</span><span class="tier-col-right">0.0000% | 0.0230%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#d4af37;"></span> VIP 3</span><span class="tier-col-mid">0.0380% | 0.0530%</span><span class="tier-col-right">0.0000% | 0.0250%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#a6a6a6;"></span> VIP 2</span><span class="tier-col-mid">0.0450% | 0.0650%</span><span class="tier-col-right">0.0100% | 0.0325%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#cd7f32;"></span> VIP 1</span><span class="tier-col-mid">0.0600% | 0.0700%</span><span class="tier-col-right">0.0130% | 0.0400%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#d4af37;"></span> Advanced 3</span><span class="tier-col-mid">0.0700% | 0.0800%</span><span class="tier-col-right">0.0150% | 0.0410%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#a6a6a6;"></span> Advanced 2</span><span class="tier-col-mid">0.0700% | 0.0900%</span><span class="tier-col-right">0.0160% | 0.0430%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#cd7f32;"></span> Advanced 1</span><span class="tier-col-mid">0.0800% | 0.1000%</span><span class="tier-col-right">0.0170% | 0.0450%</span></div>
+          <div class="tier-row" style="background:#1a1d24; border-radius:6px; padding:8px 4px;"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('blueGrad')}</span> VIP 8 <span class="silver-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></span></span><span class="tier-col-mid">0.0000% | 0.0280%</span><span class="tier-col-right">-0.0040% | 0.0170%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('goldGrad')}</span> VIP 7</span><span class="tier-col-mid">0.0050% | 0.0330%</span><span class="tier-col-right">-0.0030% | 0.0175%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('silverGrad')}</span> VIP 6</span><span class="tier-col-mid">0.0100% | 0.0350%</span><span class="tier-col-right">-0.0020% | 0.0185%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('bronzeGrad')}</span> VIP 5</span><span class="tier-col-mid">0.0150% | 0.0400%</span><span class="tier-col-right">0.0000% | 0.0200%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('blueGrad')}</span> VIP 4</span><span class="tier-col-mid">0.0230% | 0.0450%</span><span class="tier-col-right">0.0000% | 0.0230%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('goldGrad')}</span> VIP 3</span><span class="tier-col-mid">0.0380% | 0.0530%</span><span class="tier-col-right">0.0000% | 0.0250%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('silverGrad')}</span> VIP 2</span><span class="tier-col-mid">0.0450% | 0.0650%</span><span class="tier-col-right">0.0100% | 0.0325%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('bronzeGrad')}</span> VIP 1</span><span class="tier-col-mid">0.0600% | 0.0700%</span><span class="tier-col-right">0.0130% | 0.0400%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('goldGrad')}</span> Advanced 3</span><span class="tier-col-mid">0.0700% | 0.0800%</span><span class="tier-col-right">0.0150% | 0.0410%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('silverGrad')}</span> Advanced 2</span><span class="tier-col-mid">0.0700% | 0.0900%</span><span class="tier-col-right">0.0160% | 0.0430%</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('bronzeGrad')}</span> Advanced 1</span><span class="tier-col-mid">0.0800% | 0.1000%</span><span class="tier-col-right">0.0170% | 0.0450%</span></div>
           <div class="tier-row"><span class="tier-col-left">▲ Intro</span><span class="tier-col-mid">0.0900% | 0.1000%</span><span class="tier-col-right">0.0180% | 0.0450%</span></div>
         </div>
       `,
       'req-tier': `
         <div class="tier-table-container">
-          <div style="font-size:12px; color:#848e9c; margin-bottom:12px;">您所屬的層級會取決於對您來說最有利用的交易量或帳戶餘額標準。</div>
           <div class="tier-row" style="font-size:10px; border-bottom:1px solid #1e2329; padding-bottom:6px; color:#848e9c;">
             <span>層級</span><span>外匯交易 30天</span><span>永續/期貨 30天</span>
           </div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#2a75cb;"></span> VIP 8 <span style="color:#0ecb81;">✓</span></span><span class="tier-col-mid">≥ US$10亿</span><span class="tier-col-right">≥ US$50亿</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#d4af37;"></span> VIP 7</span><span class="tier-col-mid">≥ US$5亿</span><span class="tier-col-right">≥ US$25亿</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#a6a6a6;"></span> VIP 6</span><span class="tier-col-mid">≥ US$2亿</span><span class="tier-col-right">≥ US$10亿</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#cd7f32;"></span> VIP 5</span><span class="tier-col-mid">≥ US$1亿</span><span class="tier-col-right">≥ US$5亿</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#2a75cb;"></span> VIP 4</span><span class="tier-col-mid">≥ US$5000万</span><span class="tier-col-right">≥ US$2.5亿</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#d4af37;"></span> VIP 3</span><span class="tier-col-mid">≥ US$2000万</span><span class="tier-col-right">≥ US$1亿</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#a6a6a6;"></span> VIP 2</span><span class="tier-col-mid">≥ US$500万</span><span class="tier-col-right">≥ US$2500万</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#cd7f32;"></span> VIP 1</span><span class="tier-col-mid">≥ US$100万</span><span class="tier-col-right">≥ US$1000万</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#d4af37;"></span> Advanced 3</span><span class="tier-col-mid">≥ US$25万</span><span class="tier-col-right">≥ US$250万</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#a6a6a6;"></span> Advanced 2</span><span class="tier-col-mid">≥ US$5万</span><span class="tier-col-right">≥ US$50万</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span class="diamond-icon" style="background:#cd7f32;"></span> Advanced 1</span><span class="tier-col-mid">≥ US$1万</span><span class="tier-col-right">≥ US$10万</span></div>
+          <div class="tier-row" style="background:#1a1d24; border-radius:6px; padding:8px 4px;"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('blueGrad')}</span> VIP 8 <span class="silver-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></span></span><span class="tier-col-mid">≥ US$10亿</span><span class="tier-col-right">≥ US$50亿</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('goldGrad')}</span> VIP 7</span><span class="tier-col-mid">≥ US$5亿</span><span class="tier-col-right">≥ US$25亿</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('silverGrad')}</span> VIP 6</span><span class="tier-col-mid">≥ US$2亿</span><span class="tier-col-right">≥ US$10亿</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('bronzeGrad')}</span> VIP 5</span><span class="tier-col-mid">≥ US$1亿</span><span class="tier-col-right">≥ US$5亿</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('blueGrad')}</span> VIP 4</span><span class="tier-col-mid">≥ US$5000万</span><span class="tier-col-right">≥ US$2.5亿</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('goldGrad')}</span> VIP 3</span><span class="tier-col-mid">≥ US$2000万</span><span class="tier-col-right">≥ US$1亿</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('silverGrad')}</span> VIP 2</span><span class="tier-col-mid">≥ US$500万</span><span class="tier-col-right">≥ US$2500万</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('bronzeGrad')}</span> VIP 1</span><span class="tier-col-mid">≥ US$100万</span><span class="tier-col-right">≥ US$1000万</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('goldGrad')}</span> Advanced 3</span><span class="tier-col-mid">≥ US$25万</span><span class="tier-col-right">≥ US$250万</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('silverGrad')}</span> Advanced 2</span><span class="tier-col-mid">≥ US$5万</span><span class="tier-col-right">≥ US$50万</span></div>
+          <div class="tier-row"><span class="tier-col-left"><span class="gem-icon">${getGemSvg('bronzeGrad')}</span> Advanced 1</span><span class="tier-col-mid">≥ US$1万</span><span class="tier-col-right">≥ US$10万</span></div>
           <div class="tier-row"><span class="tier-col-left">▲ Intro</span><span class="tier-col-mid">≥ US$0</span><span class="tier-col-right">≥ US$0</span></div>
         </div>
       `,
       'stable-tier': `
         <div class="tier-table-container">
           <div class="tier-row" style="font-size:11px; border-bottom:1px solid #1e2329; padding-bottom:6px; color:#848e9c;">
-            <span>穩定配對</span><span>被動成交 (掛單)</span><span>吃單費</span>
+            <span class="tier-col-left">穩定配對</span><span class="tier-col-mid">被動成交 (掛單)</span><span class="tier-col-right">吃單費</span>
           </div>
-          <div class="tier-row"><span class="tier-col-left"><span style="display:flex; align-items:center; gap:6px;">${getUsdcIcon()}</span> AUDD - USDC</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span style="display:flex; align-items:center; gap:6px;">${getEthIcon()}</span> CBETH - ETH</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
-          <div class="tier-row"><span class="tier-col-left"><span style="display:flex; align-items:center; gap:6px;">${getUsdcIcon()}</span> DAI - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgAudd, svgUsdc)} AUDD - USDC</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgEth, svgEth)} CBETH - ETH</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgDai, svgUsdt)} DAI - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgDai, svgUsdc)} DAI - USDC</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgEurc, svgUsdc)} EURC - USDC</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgGusd, svgUsdt)} GUSD - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgGyen, svgUsdt)} GYEN - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgEth, svgEth)} LSETH - ETH</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgPax, svgUsdt)} PAX - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgPax, svgUsdc)} PAX - USDC</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgPyusd, svgUsdt)} PYUSD - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgTgbp, svgUsdc)} TGBP - USDC</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgUsd1, svgUsdt)} USD1 - USD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgUsdc, svgAudd)} USDC - AUD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgUsdc, svgBrl)} USDC - BRL</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgUsdc, svgCad)} USDC - CAD</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
+          <div class="tier-row"><span class="tier-col-left">${getDoubleCoinSvg(svgUsdc, svgEurc)} USDC - EUR</span><span class="tier-col-mid">0.000%</span><span class="tier-col-right">0.001%</span></div>
         </div>
       `
     };
@@ -767,7 +988,7 @@
         let coinInfo = currentCoinPrices[item.name] || { price: 100.0, change: "+1.00%", green: true };
         row.innerHTML = `
           <div class="market-left">
-            ${coinIcons[sym] || getUsdcIcon()}
+            ${coinIcons[sym] || svgUsdc}
             <div><div class="coin-symbol">${item.name}</div><div class="coin-vol">${item.vol}</div></div>
           </div>
           <div class="market-right">
@@ -815,45 +1036,81 @@
     function switchTradeSubTab(el, tabKey) {
       el.closest('.trade-sub-tabs').querySelectorAll('.trade-sub-tab').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
-      let container = document.getElementById('tradeSubContentContainer');
       if(tabKey === 'positions') {
-        container.innerHTML = `
-          <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="background:#0052ff; color:#fff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700;">OKX:BTCUSDT.P</span>
-              <span style="color:#0ecb81; font-weight:700; font-size:13px;">Long (100x)</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
-              <span>數量: 507,997.9987</span>
-              <span>均價: 84,528.7</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; color:#848e9c;">
-              <span>現價: <strong style="color:#fff;" class="fs-price-display">86,526.02</strong></span>
-              <span>未實現盈虧: <strong id="pos-upnl-trade" style="color:#0ecb81;">+$903,865,599.15 (+210.49%)</strong></span>
-            </div>
-            <button onclick="alert('平倉成功！')" style="margin-top:4px; background:#2b313a; color:#fff; border:none; padding:6px 0; border-radius:8px; font-weight:700; font-size:12px; cursor:pointer; width:100%;">平倉 (Close Position)</button>
-          </div>
-        `;
+        updatePositionsUI();
       } else if(tabKey === 'open-orders') {
-        container.innerHTML = `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">您沒有未結訂單</div>`;
+        updateOpenOrdersUI();
       } else if(tabKey === 'history-orders') {
+        let container = document.getElementById('tradeSubContentContainer');
         container.innerHTML = `
           <div style="background:#121418; border:1px solid #1e2329; border-radius:10px; padding:12px; font-size:13px; display:flex; justify-content:space-between;">
-            <span>成功建立 BTCUSDT 多頭合約 (507,997.9987 單位)</span>
-            <span style="color:#0ecb81; font-weight:700;">+2,598,123,446.12 USD</span>
+            <span>限價掛單與成交歷史紀錄</span>
+            <span style="color:#0ecb81; font-weight:700;">正常運行中</span>
           </div>
         `;
       }
+    }
+
+    function closePosition(index) {
+      userPositions.splice(index, 1);
+      updatePositionsUI();
+      alert('平倉成功！');
+    }
+
+    function cancelOrder(index) {
+      openOrders.splice(index, 1);
+      updateOpenOrdersUI();
+      alert('已成功取消掛單！');
+    }
+
+    function placeLimitOrder(type) {
+      let priceInput = document.getElementById('input-limit-price').value;
+      let qtyInput = document.getElementById('input-quantity').value;
+      
+      let price = parseFloat(priceInput) || currentCoinPrices["BTC-USDC"].price;
+      let qty = parseFloat(qtyInput) || 1000;
+
+      let tradeCost = qty / currentLeverage;
+      if(accountBalance < tradeCost) {
+        alert('可用餘額不足，無法掛單！');
+        return;
+      }
+      accountBalance -= tradeCost;
+
+      let marginEl = document.getElementById('available-margin-display');
+      if(marginEl) {
+        marginEl.innerText = accountBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) + " ⊙";
+      }
+      let cashEl = document.getElementById('available-cash-display');
+      if(cashEl) {
+        cashEl.innerText = "US$" + accountBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+
+      openOrders.push({
+        id: Date.now(),
+        symbol: activeSelectedCoin.includes("Perp") ? "OKX:" + activeSelectedCoin.replace(" ", "") + ".P" : "OKX:" + activeSelectedCoin + "T.P",
+        side: (type === 'buy' ? `Long (${currentLeverage}x)` : `Short (${currentLeverage}x)`),
+        quantity: qty,
+        limitPrice: price,
+        leverage: currentLeverage
+      });
+
+      updateOpenOrdersUI();
+      alert(`限價單提交成功！已加入「未結訂單」，等待價格達到 ${price.toLocaleString()} 時自動成交。`);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       let firstTab = document.querySelector('.category-tabs .tab');
       if(firstTab) firstTab.setAttribute('data-cat', 'spot');
       renderMarketList('spot');
+      
       let portfolioContainer = document.getElementById('mainPortfolioContentContainer');
       if(portfolioContainer) {
         portfolioContainer.innerHTML = portfolioMainViews['overview'];
       }
+
+      updatePositionsUI();
+      updateOpenOrdersUI();
       updateLivePrices();
       setInterval(updateLivePrices, 2500);
     });
@@ -866,6 +1123,16 @@
       let navEl = document.getElementById('nav-' + viewName);
       if(navEl) navEl.classList.add('active');
       if(viewName === 'market' && catKey) { renderMarketList(catKey); }
+      
+      if(viewName === 'portfolio') {
+        let portfolioContainer = document.getElementById('mainPortfolioContentContainer');
+        let portfolioTabs = document.querySelectorAll('#mainPortfolioTabs .tab');
+        if(portfolioContainer && portfolioTabs.length > 0) {
+          portfolioTabs.forEach(t => t.classList.remove('active'));
+          portfolioTabs[0].classList.add('active');
+          portfolioContainer.innerHTML = portfolioMainViews['overview'];
+        }
+      }
     }
 
     function switchCbTabToSpot() { switchCbTab('market', 'spot'); }
@@ -902,16 +1169,19 @@
       }
     }
 
-    function openDetailChart(coinName = 'BTC-USDC', price = 'US$86,546.72', change = '+2.19%', symbol = 'BTC') {
+    function openDetailChart(coinName = 'BTC-USDC', price = 86546.72, change = '+2.19%', symbol = 'BTC') {
       activeSelectedCoin = coinName;
       document.getElementById('view-detail-chart').classList.add('active');
       document.getElementById('fs-coin-title').innerText = coinName;
       document.getElementById('fs-coin-change').innerText = change;
       
-      let coinData = currentCoinPrices[coinName] || { price: 86546.72, change: change, green: true };
+      let coinData = currentCoinPrices[coinName] || { price: price, change: change, green: true };
       let formatted = coinData.price.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
       
       document.querySelectorAll('.fs-price-display').forEach(el => { el.innerText = formatted; });
+      let limitPriceInput = document.getElementById('input-limit-price');
+      if(limitPriceInput) limitPriceInput.value = coinData.price.toFixed(2);
+
       let changeDisp = document.getElementById('fs-change-display');
       if(changeDisp) {
         changeDisp.innerText = coinData.change;
