@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- PWA 全螢幕與圖標設定 -->
+  <!-- PWA 全螢幕與圖標設定 (Coinbase 藍底白C字圖標) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Coinbase">
-  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDyTI3AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAUVBMVEX///8AAAD///////////////8AAAAAAAAvLy8AAAD///////////////////////////////////////////////////////////////////////8u0w7FAAAAA3RSTlMAgABF+WJCAAAC80lEQVR4Ae3QMQEAAAwCoNm/9GXwQQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECcAMx6A6uC39W8AAAAAElFTkSuQmCC">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='115' fill='%230052ff'/%3E%3Cpath d='M384 225.4H227.6v61.2H374c-17.3 54.2-68.5 93.4-128.8 93.4-74.8 0-135.4-60.6-135.4-135.4s60.6-135.4 135.4-135.4c34.8 0 66.6 13 90.8 34.2l43.2-43.2C318.2 73.8 274.2 56 225.4 56 123 56 40 139 40 241.4S123 426.8 225.4 426.8c93.4 0 171-67.4 185.6-156h-27z' fill='%23ffffff'/%3E%3C/svg%3E">
 
   <title>Coinbase Advanced Trade</title>
   <style>
@@ -84,27 +84,26 @@
 
     .side-drawer { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 3000; }
     .side-drawer.active { display: block; }
-    .drawer-content { position: absolute; top: 0; left: 0; bottom: 0; width: 85%; max-width: 340px; background: #0b0e11; padding: 20px; display: flex; flex-direction: column; gap: 14px; color: #fff; overflow-y: auto; }
-    .drawer-item { display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; padding: 12px 0; border-bottom: 1px solid #1e2329; cursor: pointer; color: #eaecef; }
+    .drawer-content { position: absolute; top: 0; left: 0; bottom: 0; width: 85%; max-width: 340px; background: #000000; padding: 20px; display: flex; flex-direction: column; gap: 12px; color: #fff; overflow-y: auto; }
+    .drawer-item { display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 500; padding: 12px 0; cursor: pointer; color: #eaecef; }
 
     .action-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 3500; align-items: flex-end; }
     .action-modal-overlay.active { display: flex; }
     .action-modal-sheet { width: 100%; background: #0b0e11; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 16px 20px 40px 20px; border-top: 1px solid #1e2329; max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
     .sheet-indicator { width: 40px; height: 4px; background: #2b313a; border-radius: 2px; margin: 0 auto; }
 
-    .sub-page-view { display: none; position: absolute; inset: 0; background: #0b0e11; z-index: 4000; padding: 20px; overflow-y: auto; color: #fff; }
-    .sub-page-view.active { display: flex; flex-direction: column; gap: 16px; }
+    .sub-page-view { display: none; position: absolute; inset: 0; background: #000000; z-index: 4000; padding: 20px; overflow-y: auto; color: #fff; }
+    .sub-page-view.active { display: flex; flex-direction: column; gap: 4px; }
     
-    .profile-item-row { display: flex; flex-direction: column; gap: 4px; padding: 12px 0; border-bottom: 1px solid #1e2329; }
-    .profile-label { font-size: 12px; color: #848e9c; }
-    .profile-val { font-size: 15px; font-weight: 600; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+    .profile-item-row { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-bottom: 1px solid #12161c; cursor: pointer; }
+    .profile-label { font-size: 15px; font-weight: 500; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+    .profile-val { font-size: 13px; color: #848e9c; }
 
     .history-panel { display: none; flex-direction: column; gap: 10px; padding-top: 10px; }
     .history-panel.active { display: flex; }
 
     .cb-icon { width: 20px; height: 20px; stroke: #fff; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
     
-    /* 100% 精準多切面立體寶石 SVG 徽章 */
     .gem-icon { display: inline-flex; width: 16px; height: 16px; flex-shrink: 0; align-items: center; justify-content: center; }
     .silver-check { display: inline-flex; width: 14px; height: 14px; border-radius: 50%; background: #a6a6a6; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 4px; }
   </style>
@@ -176,8 +175,8 @@
 
     <!-- 1. 圖表分頁 -->
     <div class="detail-panel active" id="panel-chart-view" style="width:100%; padding:16px; background:#0b0e11;">
-      <div style="font-size:28px; font-weight:800; margin-bottom:2px;" class="fs-price-display">86,522.59</div>
-      <div style="font-size:12px; color:#848e9c; margin-bottom:12px;" id="fs-twd-display">2,756,722.50610429 TWD <span style="color:#0ecb81;" id="fs-change-display">↗ 2.19%</span></div>
+      <div style="font-size:28px; font-weight:800; margin-bottom:2px;" class="fs-price-display">85,870.00</div>
+      <div style="font-size:12px; color:#848e9c; margin-bottom:12px;" id="fs-twd-display">$2,756,722.50610429 USD <span style="color:#0ecb81;" id="fs-change-display">↗ 2.19%</span></div>
       <div style="display:flex; gap:16px; font-size:12px; color:#848e9c; margin-bottom:14px; flex-wrap:wrap;">
         <div>標記價格 <span style="color:#fff;" id="fs-mark-price">86,646.6</span></div>
         <div>融資利率 <span style="color:#0ecb81;">0.001639%/小時</span></div>
@@ -189,6 +188,18 @@
         <span style="background:#181a20; padding:4px 10px; border-radius:6px; font-size:12px;">指標 ▾</span>
       </div>
       <div style="width:100%; height:440px; background:#0b0e11;" id="tradingview_widget_container"></div>
+
+      <!-- 圖表下方新增的 5 個完整分頁區塊 -->
+      <div style="margin-top: 20px; border-top: 1px solid #1e2329; padding-top: 16px;">
+        <div class="trade-sub-tabs" id="chartBottomTabs">
+          <div class="trade-sub-tab active" onclick="switchChartBottomTab(this, 'orderbook')">訂單簿</div>
+          <div class="trade-sub-tab" onclick="switchChartBottomTab(this, 'recent-trades')">最近交易</div>
+          <div class="trade-sub-tab" onclick="switchChartBottomTab(this, 'positions')">頭寸 (<span id="chart-positions-count">1</span>)</div>
+          <div class="trade-sub-tab" onclick="switchChartBottomTab(this, 'open-orders')">未結訂單 (<span id="chart-open-orders-count">0</span>)</div>
+          <div class="trade-sub-tab" onclick="switchChartBottomTab(this, 'history-orders')">訂單歷史</div>
+        </div>
+        <div id="chartBottomContentContainer" style="margin-top: 12px; padding: 0 4px;"></div>
+      </div>
     </div>
 
     <!-- 2. 交易分頁 -->
@@ -196,7 +207,7 @@
       <div style="padding: 12px; display:flex; flex-direction:row; gap:12px;">
         <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
           <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; border-bottom:1px solid #1e2329; padding-bottom:6px;">
-            <div>價格 <div style="color:#fff; font-weight:700; font-size:14px;" class="fs-price-display">86,522.59</div></div>
+            <div>價格 <div style="color:#fff; font-weight:700; font-size:14px;" class="fs-price-display">85,870.00</div></div>
             <div>融資利率 <div style="color:#0ecb81; font-weight:700; font-size:14px;">0.001622%/小時</div></div>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
@@ -206,12 +217,12 @@
           
           <div onclick="openLeverageModal()" style="font-size:12px; color:#848e9c; display:flex; justify-content:space-between; background:#121418; padding:8px; border-radius:8px; cursor:pointer;">
             <span>保證金/槓桿</span>
-            <span style="color:#fff; font-weight:700;" id="leverage-display">跨市場保證金 ▾ 50x ▾</span>
+            <span style="color:#fff; font-weight:700;" id="leverage-display">跨市場保證金 ▾ 100x ▾</span>
           </div>
 
           <div style="font-size:12px; color:#848e9c; display:flex; justify-content:space-between; background:#121418; padding:8px; border-radius:8px;">
             <span>可動用的保證金 (USDC)</span>
-            <span style="color:#fff; font-weight:700;" id="available-margin-display">3,857,971,997.00 ⊙</span>
+            <span style="color:#fff; font-weight:700;" id="available-margin-display">$3,843,202,377.50 ⊙</span>
           </div>
           <div style="background:#121418; border:1px solid #2b313a; border-radius:8px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
             <span style="font-size:13px;">限額掛單</span>
@@ -221,7 +232,7 @@
           <div style="background:#121418; border:1px solid #2b313a; border-radius:8px; padding:8px 10px;">
             <div style="font-size:11px; color:#848e9c;">目標掛單價格 (Limit Price)</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
-              <input type="number" id="input-limit-price" value="86522.59" style="background:transparent; border:none; color:#fff; font-weight:700; font-size:14px; outline:none; width:70%;">
+              <input type="number" id="input-limit-price" value="85870.00" style="background:transparent; border:none; color:#fff; font-weight:700; font-size:14px; outline:none; width:70%;">
               <span style="font-size:11px; color:#2a75cb;">限價設定</span>
             </div>
           </div>
@@ -251,32 +262,66 @@
     </div>
 
     <!-- 3. 市場資訊分頁 -->
-    <div class="detail-panel" id="panel-market-info" style="padding: 16px; background:#0b0e11;">
-      <div style="display:flex; gap:20px; font-size:14px; font-weight:700; color:#848e9c; border-bottom:1px solid #1e2329; padding-bottom:12px; margin-bottom:16px;">
-        <span style="color:#fff; border-bottom:2px solid #fff; padding-bottom:10px;">融資利率</span>
-        <span>合約規格</span>
-        <span>關於</span>
+    <div class="detail-panel" id="panel-market-info" style="padding: 0; background:#0b0e11;" onscroll="handleMarketInfoScroll()">
+      <div id="stickyMarketTabs" style="display:flex; gap:20px; font-size:14px; font-weight:700; color:#848e9c; background:#0b0e11; border-bottom:1px solid #1e2329; padding: 16px 16px 12px 16px; position: sticky; top: 0; z-index: 20;">
+        <span class="market-info-tab active" id="m-tab-funding" onclick="switchMarketInfoTab('funding')" style="cursor:pointer; color:#fff; border-bottom:2px solid #fff; padding-bottom:10px;">融資利率</span>
+        <span class="market-info-tab" id="m-tab-specs" onclick="switchMarketInfoTab('specs')" style="cursor:pointer; padding-bottom:10px;">合約規格</span>
+        <span class="market-info-tab" id="m-tab-about" onclick="switchMarketInfoTab('about')" style="cursor:pointer; padding-bottom:10px;">關於</span>
       </div>
-      <div style="font-size:15px; font-weight:800; margin-bottom:12px;">融資利率</div>
-      <div style="font-size:13px; color:#848e9c; margin-bottom:8px;">即時融資利率</div>
-      <div class="overview-section">
-        <div class="overview-row"><div style="color:#848e9c;">每小時</div><div style="font-weight:700; color:#0ecb81;">0.001664%</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">8小時的累計利率</div><div style="font-weight:700;">0.013309%</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">年化</div><div style="font-weight:700;">14.57%</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">方針</div><div style="font-weight:700; color:#0ecb81;">做多支付做空</div></div>
-      </div>
-      <div style="font-size:13px; color:#848e9c; margin:16px 0 8px 0;">過去 8 小時 (已實現)</div>
-      <div class="overview-section">
-        <div class="overview-row"><div style="color:#848e9c;">過去 8 小時內</div><div style="font-weight:700;">0.001032%</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">年化</div><div style="font-weight:700;">1.13%</div></div>
-      </div>
-      <div style="font-size:15px; font-weight:800; margin:20px 0 12px 0;">合約規格</div>
-      <div class="overview-section">
-        <div class="overview-row"><div style="color:#848e9c;">價格來源</div><div style="font-weight:700;">DRB BTC-USDC 指數</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">永續合約上市日期</div><div style="font-weight:700;">09 Mar 2022, 11:12:22</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">最小訂單大小</div><div style="font-weight:700;">0.0001</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">價格變動幅度</div><div style="font-weight:700;">0.1</div></div>
-        <div class="overview-row"><div style="color:#848e9c;">結算貨幣</div><div style="font-weight:700;">USDC</div></div>
+
+      <div style="padding: 16px;" id="marketInfoContentContainer">
+        <div id="section-funding" style="margin-bottom: 24px;">
+          <div style="font-size:15px; font-weight:800; margin-bottom:12px;">融資利率</div>
+          <div style="font-size:13px; color:#848e9c; margin-bottom:8px;">即時融資利率</div>
+          <div class="overview-section">
+            <div class="overview-row"><div style="color:#848e9c;">每小時</div><div style="font-weight:700; color:#0ecb81;">0.001664%</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">8小時的累計利率</div><div style="font-weight:700;">0.013309%</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">年化</div><div style="font-weight:700;">14.57%</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">方針</div><div style="font-weight:700; color:#0ecb81;">做多支付做空</div></div>
+          </div>
+          <div style="font-size:13px; color:#848e9c; margin:16px 0 8px 0;">過去 8 小時 (已實現)</div>
+          <div class="overview-section">
+            <div class="overview-row"><div style="color:#848e9c;">過去 8 小時內</div><div style="font-weight:700;">0.001032%</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">年化</div><div style="font-weight:700;">1.13%</div></div>
+          </div>
+        </div>
+
+        <div id="section-specs" style="margin-bottom: 24px;">
+          <div style="font-size:15px; font-weight:800; margin-bottom:12px;">合約規格</div>
+          <div class="overview-section">
+            <div class="overview-row"><div style="color:#848e9c;">價格來源</div><div style="font-weight:700;">DRB BTC-USDC 指數</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">永續合約上市日期</div><div style="font-weight:700;">09 Mar 2022, 11:12:22</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">最小訂單大小</div><div style="font-weight:700;">0.0001</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">價格變動幅度</div><div style="font-weight:700;">0.1</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">結算貨幣</div><div style="font-weight:700;">USDC</div></div>
+          </div>
+        </div>
+
+        <div id="section-about" style="margin-bottom: 24px;">
+          <div style="font-size:15px; font-weight:800; margin-bottom:12px;">關於 Bitcoin</div>
+          <div style="font-size:13px; color:#eaecef; line-height:1.6; margin-bottom:16px;">
+            The world's first cryptocurrency, Bitcoin is stored and exchanged securely on the internet through a digital ledger known as a blockchain. Bitcoins are divisible into smaller units known as satoshis — each satoshi is worth 0.00000001 bitcoin.
+          </div>
+          <div style="font-size:15px; font-weight:800; margin-bottom:12px;">數據</div>
+          <div class="overview-section">
+            <div class="overview-row"><div style="color:#848e9c;">市值</div><div style="font-weight:700;">NT$54.8万亿</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">成交量 (24 小時)</div><div style="font-weight:700;">NT$7324.8亿 <span style="color:#0ecb81;">+87.55%</span></div></div>
+            <div class="overview-row"><div style="color:#848e9c;">流通量</div><div style="font-weight:700;">2009.4万 BTC</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">完全攤薄的市值</div><div style="font-weight:700;">NT$57.3万亿</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">歷史最高紀錄 (2025年10月)</div><div style="font-weight:700;">NT$4,008,815.50</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">較歷史最高点的跌幅</div><div style="font-weight:700; color:#f6465d;">-31.96%</div></div>
+            <div class="overview-row"><div style="color:#848e9c;">表現 (過去一年)</div><div style="font-weight:700; color:#f6465d;">-32%</div></div>
+          </div>
+          <div style="font-size:15px; font-weight:800; margin:16px 0 12px 0;">資源</div>
+          <div style="display:flex; gap:16px; font-size:13px; color:#ffffff; font-weight:600; align-items:center;">
+            <span style="cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="alert('開啟官方網站')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> 官方網站 ↗
+            </span>
+            <span style="cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="alert('開啟白皮書')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg> 白皮書 ↗
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -287,8 +332,8 @@
     <div style="padding: 16px;">
       <div style="background:#121418; border:1px solid #1e2329; border-radius:16px; padding:20px;">
         <div style="font-size:13px; color:#848e9c;">Equity (權益數)</div>
-        <div style="font-size:26px; font-weight:800; margin-top:4px;" id="trade-equity-display">$4,606,656,952.92</div>
-        <button onclick="openDetailChart('BTC-USDC', 86522.59, '↗ 2.19%', 'BTC')" style="margin-top:16px; width:100%; padding:14px; background:#ffffff; border:none; border-radius:24px; color:#000; font-weight:800; cursor:pointer;">Quick Trade Order</button>
+        <div style="font-size:26px; font-weight:800; margin-top:4px;" id="trade-equity-display">$4,382,405,095.14</div>
+        <button onclick="openDetailChart('BTC-USDC', 85870.0, '↗ 2.19%', 'BTC')" style="margin-top:16px; width:100%; padding:14px; background:#ffffff; border:none; border-radius:24px; color:#000; font-weight:800; cursor:pointer;">Quick Trade Order</button>
       </div>
     </div>
   </div>
@@ -304,11 +349,10 @@
       </div>
     </div>
 
-    <!-- 投資組合頂部總餘額、四大功能按鍵與子帳戶卡片 -->
     <div style="padding: 16px 16px 0 16px;">
-      <div style="font-size: 12px; color: #848e9c; margin-bottom: 2px;">總餘額</div>
+      <div style="font-size: 12px; color: #848e9c; margin-bottom: 2px;">總餘額 (Equity)</div>
       <div style="font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 16px; display:flex; align-items:center; gap:4px; cursor:pointer;" onclick="alert('總餘額詳情')">
-        NT$138,550,422.38 <span style="font-size: 20px; color: #848e9c;">></span>
+        <span id="portfolio-total-equity">$4,382,405,095.14</span> <span style="font-size: 20px; color: #848e9c;">></span>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px;">
@@ -332,19 +376,18 @@
 
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:16px;">
         <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px;">
-          <div style="font-size:12px; color:#848e9c; margin-bottom:4px; display:flex; align-items:center; gap:4px;">⏱ NT$138,550,422.38</div>
-          <div style="font-size:15px; font-weight:800;" id="portfolio-card-main">NT$138,550,422.38</div>
+          <div style="font-size:12px; color:#848e9c; margin-bottom:4px;">⏱ $3,598,123,446.12</div>
+          <div style="font-size:15px; font-weight:800;">$3,598,123,446.12</div>
           <div style="font-size:12px; color:#848e9c; margin-top:2px;">主要</div>
         </div>
         <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px;">
-          <div style="font-size:12px; color:#848e9c; margin-bottom:4px; display:flex; align-items:center; gap:4px;">⏱ NT$137,420,311.50</div>
-          <div style="font-size:15px; font-weight:800;" id="portfolio-card-derivatives">NT$137,420,311.50</div>
+          <div style="font-size:12px; color:#848e9c; margin-bottom:4px;">⏱ <span id="portfolio-deriv-sub">$437,126,687.67</span></div>
+          <div style="font-size:15px; font-weight:800;" id="portfolio-deriv-main">$437,126,687.67</div>
           <div style="font-size:12px; color:#848e9c; margin-top:2px;">全球衍生性商品</div>
         </div>
       </div>
     </div>
 
-    <!-- 投資組合頂部分頁：預設選中「概覽」 -->
     <div class="category-tabs" style="margin-bottom:14px; border-bottom:1px solid #1e2329; padding:0 16px;" id="mainPortfolioTabs">
       <div class="tab active" onclick="switchMainPortfolioTab(this, 'overview')">概覽</div>
       <div class="tab" onclick="switchMainPortfolioTab(this, 'fees')">費用 <span style="font-size:10px; background:#2b313a; color:#fff; padding:2px 6px; border-radius:4px; margin-left:6px;">INT</span></div>
@@ -378,7 +421,7 @@
       </div>
 
       <div class="history-panel" id="history-panel-funding">
-        <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+        <div onclick="openTransferDetail()" style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px; cursor:pointer;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
               <div style="font-weight:700; font-size:14px; color:#fff;">發送 USDC (Send Crypto Out)</div>
@@ -394,6 +437,74 @@
     </div>
   </div>
 
+  <!-- ==================== 資金轉帳詳情子頁面 ==================== -->
+  <div class="sub-page-view" id="transferDetailSubView">
+    <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:14px;">
+      <div style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="closeTransferDetail()">
+        <span style="font-size:20px; color:#fff;">←</span>
+        <span style="font-weight:800; font-size:16px;">Back to Transactions</span>
+      </div>
+      <div style="display:flex; gap:16px; font-size:13px; color:#848e9c;">
+        <span style="cursor:pointer;" onclick="alert('Print Receipt')">Print Receipt</span>
+        <span style="cursor:pointer;" onclick="alert('Share')">Share</span>
+      </div>
+    </div>
+
+    <div style="background:#121418; border:1px solid #1e2329; border-radius:16px; padding:24px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:10px;">
+      <div style="display:flex; align-items:center; gap:8px; background:#0ecb8122; color:#0ecb81; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700;">
+        <span>✓ Transaction Completed</span>
+        <span style="background:#0ecb81; color:#000; padding:2px 8px; border-radius:4px; font-size:10px;">SUCCESS</span>
+      </div>
+      <div style="font-size:12px; color:#848e9c;">Confirmed on the Ethereum Blockchain</div>
+
+      <div style="width:48px; height:48px; background:#181a20; border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 6px 0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </div>
+
+      <div style="font-size:12px; color:#848e9c; font-weight:600;">SEND CRYPTO OUT</div>
+      <div style="font-size:26px; font-weight:800; color:#fff;">$200,834.00 <span style="font-size:14px; color:#848e9c;">USD</span></div>
+      <div style="font-size:12px; color:#848e9c;">200,834.00 USDC (USD Coin)</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:4px;">
+      <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#848e9c;">
+          <span>FROM</span><span style="color:#0ecb81;">✓ Verified</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+          <div style="width:28px; height:28px; background:#0052ff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#fff;">CB</div>
+          <div><div style="font-weight:700; font-size:13px;">Coinbase Vault</div><div style="font-size:10px; color:#848e9c;">Primary Institutional Wallet</div></div>
+        </div>
+      </div>
+      <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:#848e9c;">
+          <span>TO (DESTINATION)</span><span>External Exchange</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+          <div style="width:28px; height:28px; background:#222; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#fff;">OK</div>
+          <div><div style="font-weight:700; font-size:13px;">OKX Deposit Address</div><div style="font-size:10px; color:#848e9c;">0x7a8F...E3F5</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overview-section" style="margin-top:4px;">
+      <div style="font-size:14px; font-weight:800; margin-bottom:10px;">TRANSACTION DETAILS</div>
+      <div class="overview-row"><div style="color:#848e9c;">Date & Time</div><div style="font-weight:600; font-size:13px;">Sep 29, 2025 at 12:42:18 PM UTC</div></div>
+      <div class="overview-row"><div style="color:#848e9c;">Asset</div><div style="font-weight:600; font-size:13px; display:flex; align-items:center; gap:4px;">🔵 USD Coin (USDC)</div></div>
+      <div class="overview-row"><div style="color:#848e9c;">Network</div><div style="font-weight:600; font-size:13px;">Ethereum Mainnet (ERC-20)</div></div>
+      <div class="overview-row"><div style="color:#848e9c;">Network Fee (Gas)</div><div style="font-weight:600; font-size:13px; text-align:right;">$4.82 USD<br><span style="font-size:10px; color:#848e9c;">0.00185 ETH</span></div></div>
+      <div class="overview-row"><div style="color:#848e9c;">Coinbase Fee</div><div style="font-weight:600; font-size:13px; color:#0ecb81;">Free ($0.00)</div></div>
+      <div class="overview-row"><div style="color:#848e9c;">Total Deducted</div><div style="font-weight:700; font-size:14px; color:#fff;">$200,838.82 USD</div></div>
+      <div class="overview-row" style="border-bottom:none;"><div style="color:#848e9c;">Transaction Hash (TxID)</div><div style="font-weight:600; font-size:12px; color:#3b82f6; cursor:pointer;" onclick="alert('複製 TxID 成功')">0x6efe32490ffb574268e3794154447d25e839eef7637... 📋</div></div>
+    </div>
+
+    <div style="font-size:11px; color:#848e9c; text-align:center; line-height:1.4; margin-top:6px;">
+      ℹ Transfers between institutions are subject to 12 network confirmations.
+    </div>
+
+    <button onclick="closeTransferDetail()" style="width:100%; padding:14px; background:#2563eb; border:none; border-radius:12px; color:#fff; font-weight:800; font-size:14px; cursor:pointer; margin-top:10px;">View Balance</button>
+  </div>
+
   <!-- 微透明懸浮質感底部導覽列 -->
   <div class="cb-bottom-nav">
     <div class="nav-item active" id="nav-market" onclick="switchCbTabToSpot()">
@@ -402,7 +513,7 @@
     <div class="nav-item" id="nav-derivatives" onclick="switchCbTabToPerpetual()">
       <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>衍生產品</span>
     </div>
-    <div class="nav-item" id="nav-trade" onclick="openDetailChart('BTC-USDC', 86522.59, '↗ 2.19%', 'BTC')">
+    <div class="nav-item" id="nav-trade" onclick="openDetailChart('BTC-USDC', 85870.0, '↗ 2.19%', 'BTC')">
       <svg viewBox="0 0 24 24"><path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 8h2v10h-2V11zm4-4h2v14h-2V7z"/></svg><span>交易</span>
     </div>
     <div class="nav-item" id="nav-portfolio" onclick="switchCbTab('portfolio', null)">
@@ -416,28 +527,41 @@
   <!-- 左上角三條線側邊選單 Drawer -->
   <div class="side-drawer" id="sideDrawer" onclick="closeSideDrawer()">
     <div class="drawer-content" onclick="event.stopPropagation()">
-      <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:14px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:6px;">
         <div style="display:flex; align-items:center; gap:12px; cursor:pointer;" onclick="openAccountSettings()">
-          <div style="width:40px; height:40px; border-radius:50%; background:#252930; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px;">L</div>
-          <div><div style="font-weight:800; font-size:16px; color:#fff;">Lapetos</div><div style="font-size:12px; color:#848e9c;">帳戶和設定 ></div></div>
+          <div style="width:40px; height:40px; border-radius:50%; background:#252930; display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px; font-weight:700;">L</div>
+          <div><div style="font-weight:700; font-size:16px; color:#fff;">Lapetos</div><div style="font-size:12px; color:#848e9c;">帳戶和設定 ></div></div>
         </div>
-        <div onclick="closeSideDrawer()" style="cursor:pointer; font-size:20px; color:#848e9c;">✕</div>
+        <div onclick="closeSideDrawer()" style="cursor:pointer; font-size:22px; color:#848e9c;">✕</div>
       </div>
-      <div style="display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700; color:#fff; padding:6px 0; cursor:pointer;">
-        <span class="gem-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2L3 9l9 13 9-13z" fill="url(#blueGrad)"/><path d="M12 2L3 9l9 4z" fill="#93c5fd" opacity="0.6"/><path d="M12 2l9 7-9 4z" fill="#3b82f6"/></svg></span> VIP 8 <span class="silver-check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4"><polyline points="20 6 9 17 4 12"></polyline></svg></span> >
+      <div style="display:flex; align-items:center; gap:6px; font-size:14px; font-weight:700; color:#fff; padding:4px 0; cursor:pointer;">
+        <span>Intro</span> <span style="font-size:12px; color:#848e9c;">></span>
       </div>
 
-      <div style="font-size:12px; color:#848e9c; margin-top:4px;">更多功能</div>
+      <div style="font-size:13px; color:#848e9c; margin-top:6px;">更多功能</div>
       <div class="drawer-item" style="display:flex; align-items:center; justify-content:space-between;">
-        <div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 進階</div>
+        <div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 追隨</div>
         <div style="width:40px; height:22px; background:#0ecb81; border-radius:12px; position:relative; cursor:pointer;"><div style="width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; top:2px; right:2px;"></div></div>
       </div>
-      <div class="drawer-item"><div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="2"></rect><path d="M2 14h2M20 14h2M9 4v4M15 4v4M9 12h2M13 12h2"></path></svg> 智慧體</div></div>
-      <div class="drawer-item" onclick="openSubPageView('cashSubView')"><div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg> 現金</div><span style="font-size:12px; color:#0ecb81;">賺取 3.60% APY (收益率)</span></div>
-      <div class="drawer-item" onclick="openSubPageView('transfersSubView')"><div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M7 17l92-9M7 7h10v10"></path></svg> 發起收款請求</div></div>
-      <div class="drawer-item"><div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6M23 11h-6"></path></svg> 邀請朋友</div></div>
-      <div class="drawer-item"><div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path></svg> Coinbase Wallet</div><span>↗</span></div>
-      <div class="drawer-item"><div style="display:flex; align-items:center; gap:10px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 分享您的意見回饋</div></div>
+      <div class="drawer-item"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="2"></rect><path d="M2 14h2M20 14h2M9 4v4M15 4v4M9 12h2M13 12h2"></path></svg> 智慧體</div></div>
+      <div class="drawer-item"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> 賺錢</div></div>
+      <div class="drawer-item" onclick="openSubPageView('transfersSubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M7 17l92-9M7 7h10v10"></path></svg> 發起收款請求</div></div>
+      <div class="drawer-item"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6M23 11h-6"></path></svg> 邀請朋友</div></div>
+      <div class="drawer-item"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path></svg> Coinbase Wallet</div><span>↗</span></div>
+      <div class="drawer-item"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> 分享您的意見回饋</div></div>
+
+      <div style="background:#121418; border-radius:14px; padding:16px; margin-top:auto; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:700; font-size:14px; color:#fff;">獲得幫助</div>
+          <div style="font-size:11px; color:#848e9c; margin-top:2px;">尋找常見問題解答或與我們交談</div>
+        </div>
+        <div style="width:32px; height:32px; background:#1e2329; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">💬</div>
+      </div>
+      <div style="display:flex; justify-content:space-around; font-size:12px; color:#848e9c; padding: 10px 0;">
+        <span style="cursor:pointer;" onclick="alert('按讚')">按讚尋球</span>
+        <span style="cursor:pointer;" onclick="alert('服務條款')">服務條款連結</span>
+        <span style="cursor:pointer;" onclick="alert('關閉')">關閉</span>
+      </div>
     </div>
   </div>
 
@@ -450,17 +574,34 @@
 
   <!-- 帳戶和設定詳細子視圖 -->
   <div class="sub-page-view" id="settingsSubView">
-    <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:14px;">
-      <div style="font-weight:800; font-size:18px;">帳戶和設定</div>
-      <div onclick="closeAccountSettings()" style="cursor:pointer; font-size:20px; color:#848e9c;">✕</div>
+    <div style="display:flex; align-items:center; gap:12px; padding: 10px 0 16px 0; border-bottom:1px solid #12161c;">
+      <div onclick="closeAccountSettings()" style="cursor:pointer; font-size:22px; color:#fff;">←</div>
+      <div style="font-weight:800; font-size:18px; color:#fff;">帳戶和設定</div>
     </div>
-    <div class="drawer-item" onclick="openSubPageView('profileSubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> 個人資訊</div><span>></span></div>
-    <div class="drawer-item" onclick="openSubPageView('securitySubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> 安全性</div><span>></span></div>
-    <div class="drawer-item" onclick="openSubPageView('paymentSubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg> 支付方式</div><span>></span></div>
-    <div class="drawer-item" onclick="openSubPageView('notifSubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> 通知</div><span>></span></div>
-    <div class="drawer-item" onclick="openSubPageView('cashSubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> 現金</div><span>></span></div>
-    <div class="drawer-item" onclick="openSubPageView('statementSubView')"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> 對賬單</div><span>></span></div>
-    <div class="drawer-item" onclick="alert('已登出')"><div style="display:flex; align-items:center; gap:12px; color:#f6465d;"><svg class="cb-icon" style="stroke:#f6465d;" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg> 登出</div><span>></span></div>
+    <div class="profile-item-row" onclick="openSubPageView('profileSubView')"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> 個人資訊</div><span>></span></div></div>
+    <div class="profile-item-row" onclick="openSubPageView('securitySubView')"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> 安全性</div><span>></span></div></div>
+    <div class="profile-item-row" onclick="openSubPageView('paymentSubView')"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg> 支付方式</div><span>></span></div></div>
+    <div class="profile-item-row" onclick="openSubPageView('notifSubView')"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> 通知</div><span>></span></div></div>
+    <div class="profile-item-row" onclick="openSubPageView('statementSubView')"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> 對賬單</div><span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg> 進階交易</div><span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle></svg> 限額</div><span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> 語言</div><span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> 幣種</div><span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg> 外觀</div><span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label"><div style="display:flex; align-items:center; gap:12px;"><svg class="cb-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> 隱私權</div><span>></span></div></div>
+
+    <div class="profile-item-row" onclick="alert('已成功登出')" style="border-bottom:none; margin-top:6px;">
+      <div class="profile-label" style="color:#f6465d;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <svg class="cb-icon" style="stroke:#f6465d;" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"></path></svg> 登出
+        </div>
+        <span>></span>
+      </div>
+    </div>
+    <div style="padding: 16px 0 30px 0; font-size: 12px; color: #848e9c; display: flex; flex-direction: column; gap: 4px;">
+      <div>應用程式版本：14.37.63 (14370053), production</div>
+      <div>使用者 ID：f6e938fd-c5a3-5de7-b54c-7840fbf89580</div>
+    </div>
   </div>
 
   <div class="sub-page-view" id="profileSubView">
@@ -475,7 +616,7 @@
     <div class="profile-item-row"><div class="profile-label">電郵地址</div><div class="profile-val" style="font-size: 13px; color: #848e9c;">jw2c2fdjwz@privaterelay.appleid.com <span>></span></div></div>
     <div class="profile-item-row"><div class="profile-label">出生日期</div><div class="profile-val">xx/xx/xx00 <span>></span></div></div>
     <div class="profile-item-row"><div class="profile-label">時區</div><div class="profile-val">Taipei <span>></span></div></div>
-    <div class="profile-item-row"><div class="profile-label">幣種</div><div class="profile-val">TWD <span>></span></div></div>
+    <div class="profile-item-row"><div class="profile-label">幣種</div><div class="profile-val">USD <span>></span></div></div>
   </div>
 
   <div class="sub-page-view" id="securitySubView">
@@ -500,14 +641,6 @@
       <div style="font-weight:800; font-size:18px;">通知設定</div>
     </div>
     <div class="profile-item-row"><div class="profile-label">推播通知</div><div class="profile-val">已開啟 <span>●</span></div></div>
-  </div>
-
-  <div class="sub-page-view" id="cashSubView">
-    <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid #1e2329; padding-bottom:14px;">
-      <div onclick="closeSubPageView('cashSubView')" style="cursor:pointer; font-size:20px; color:#fff;">←</div>
-      <div style="font-weight:800; font-size:18px;">現金設定</div>
-    </div>
-    <div class="profile-item-row"><div class="profile-label">可用現金餘額</div><div class="profile-val" id="available-cash-display">US$3,857,971,997.00</div></div>
   </div>
 
   <!-- 全域 SVG 漸層定義 -->
@@ -539,24 +672,24 @@
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
   <script>
-    let accountBalance = 3857971997.00;
-    let currentLeverage = 50;
+    let accountBalance = 3598123446.12;
+    let currentLeverage = 100;
     
     let userPositions = [
       {
         id: 1,
         symbol: "OKX:BTCUSDT.P",
-        type: "Long (50x)",
+        type: "Long (100x)",
         quantity: 507997.9987,
         avgPrice: 84528.7,
-        leverage: 50
+        leverage: 100
       }
     ];
 
     let openOrders = [];
     
     let currentCoinPrices = {
-      "BTC-USDC": { price: 86546.72, change: "↗ 2.19%", green: true },
+      "BTC-USDC": { price: 85870.0, change: "↗ 2.19%", green: true },
       "ZEC-USDC": { price: 1304.90, change: "↘ 1.33%", green: false },
       "ETH-USDC": { price: 2700.02, change: "↗ 0.78%", green: true },
       "XRP-USDC": { price: 1.5052, change: "↗ 1.25%", green: true },
@@ -571,7 +704,7 @@
       "UNI-USDC": { price: 9.1500, change: "↗ 1.84%", green: true },
       "LTC-USDC": { price: 71.519, change: "↗ 2.85%", green: true },
       "LINK-USDC": { price: 14.154, change: "↗ 2.65%", green: true },
-      "BTC Perp": { price: 86546.72, change: "↗ 2.19%", green: true },
+      "BTC Perp": { price: 85870.0, change: "↗ 2.19%", green: true },
       "ETH Perp": { price: 2700.01, change: "↗ 0.79%", green: true },
       "SOL Perp": { price: 121.622, change: "↗ 1.71%", green: true },
       "XRP Perp": { price: 1.5052, change: "↗ 1.25%", green: true },
@@ -581,7 +714,6 @@
 
     let activeSelectedCoin = "BTC-USDC";
 
-    // 100% 精準立體多切面寶石 SVG 產生器
     let getGemSvg = (gradId) => `
       <svg class="gem-icon" viewBox="0 0 24 24">
         <path d="M12 2L3 9l9 13 9-13z" fill="url(#${gradId})"/>
@@ -662,25 +794,40 @@
 
     function updateLiveOrderBook(basePrice) {
       let bookContainer = document.getElementById('live-order-book');
-      if (!bookContainer) return;
-      
-      let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:4px; font-weight:700;"><span>價格(USDC)</span><span>金額(BTC)</span></div>`;
-      
-      for(let i = 8; i >= 1; i--) {
-        let p = (basePrice + i * 0.75).toFixed(2);
-        let q = (0.04 + Math.random() * 0.08).toFixed(4);
-        html += `<div style="display:flex; justify-content:space-between; color:#f6465d;"><span>${p}</span><span>${q}</span></div>`;
+      if (bookContainer) {
+        let html = `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #1e2329; padding-bottom:4px; font-weight:700;"><span>價格(USDC)</span><span>金額(BTC)</span></div>`;
+        for(let i = 8; i >= 1; i--) {
+          let p = (basePrice + i * 0.75).toFixed(2);
+          let q = (0.04 + Math.random() * 0.08).toFixed(4);
+          html += `<div style="display:flex; justify-content:space-between; color:#f6465d;"><span>${p}</span><span>${q}</span></div>`;
+        }
+        html += `<div style="display:flex; justify-content:space-between; color:#0ecb81; margin:6px 0; font-weight:800; font-size:12px;"><span class="fs-price-display">${basePrice.toFixed(2)}</span><span>↑</span></div>`;
+        for(let i = 1; i <= 8; i++) {
+          let p = (basePrice - i * 0.75).toFixed(2);
+          let q = (0.04 + Math.random() * 0.08).toFixed(4);
+          html += `<div style="display:flex; justify-content:space-between; color:#0ecb81;"><span>${p}</span><span>${q}</span></div>`;
+        }
+        bookContainer.innerHTML = html;
       }
 
-      html += `<div style="display:flex; justify-content:space-between; color:#0ecb81; margin:6px 0; font-weight:800; font-size:12px;"><span class="fs-price-display">${basePrice.toFixed(2)}</span><span>↑</span></div>`;
-
-      for(let i = 1; i <= 8; i++) {
-        let p = (basePrice - i * 0.75).toFixed(2);
-        let q = (0.04 + Math.random() * 0.08).toFixed(4);
-        html += `<div style="display:flex; justify-content:space-between; color:#0ecb81;"><span>${p}</span><span>${q}</span></div>`;
+      let chartBookContainer = document.getElementById('chart-bottom-orderbook');
+      if (chartBookContainer) {
+        let html2 = `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #1e2329; font-weight:700; color:#848e9c; font-size:12px;"><span>金額 (USDC)</span><span>價格 (USDC)</span><span>金額 (USDC)</span></div>`;
+        for(let i = 5; i >= 1; i--) {
+          let p = (basePrice + i * 0.75).toFixed(2);
+          let q1 = (0.05 + Math.random() * 0.05).toFixed(4);
+          let q2 = (0.1 + Math.random() * 0.9).toFixed(4);
+          html2 += `<div style="display:flex; justify-content:space-between; padding:4px 0; font-size:12px;"><span style="color:#848e9c;">${q1}</span><span style="color:#f6465d; font-weight:700;">${p}</span><span style="color:#848e9c;">${q2}</span></div>`;
+        }
+        html2 += `<div style="padding:8px 0; font-size:15px; font-weight:800; color:#0ecb81; display:flex; align-items:center; gap:8px;"><span class="fs-price-display">${basePrice.toFixed(2)}</span> <span style="font-size:12px; color:#0ecb81;">↗ 2.19%</span></div>`;
+        for(let i = 1; i <= 5; i++) {
+          let p = (basePrice - i * 0.75).toFixed(2);
+          let q1 = (0.05 + Math.random() * 0.05).toFixed(4);
+          let q2 = (0.1 + Math.random() * 0.9).toFixed(4);
+          html2 += `<div style="display:flex; justify-content:space-between; padding:4px 0; font-size:12px;"><span style="color:#848e9c;">${q1}</span><span style="color:#0ecb81; font-weight:700;">${p}</span><span style="color:#848e9c;">${q2}</span></div>`;
+        }
+        chartBookContainer.innerHTML = html2;
       }
-
-      bookContainer.innerHTML = html;
     }
 
     function openLeverageModal() {
@@ -742,16 +889,23 @@
     function updatePositionsUI() {
       let countEl = document.getElementById('positions-count');
       if(countEl) countEl.innerText = userPositions.length;
+      let countEl2 = document.getElementById('chart-positions-count');
+      if(countEl2) countEl2.innerText = userPositions.length;
 
       let btcPrice = currentCoinPrices["BTC-USDC"].price;
       let totalUnrealizedPnL = 0;
+      let totalMarginUsed = 0;
 
       let html = '';
       userPositions.forEach((pos, index) => {
         let diff = btcPrice - pos.avgPrice;
         let pnl = diff * pos.quantity * (pos.type.includes("Long") ? 1 : -1);
-        let pnlPercent = (diff / pos.avgPrice) * 100 * (pos.type.includes("Long") ? 1 : -1) * (pos.leverage || 50);
+        let pnlPercent = (diff / pos.avgPrice) * 100 * (pos.type.includes("Long") ? 1 : -1) * (pos.leverage || 100);
         totalUnrealizedPnL += pnl;
+
+        let tradeVal = pos.quantity * btcPrice;
+        let marginNeeded = tradeVal / (pos.leverage || 100);
+        totalMarginUsed += marginNeeded;
 
         let pnlColor = pnl >= 0 ? '#0ecb81' : '#f6465d';
         let pnlSign = pnl >= 0 ? '+$' : '-$';
@@ -776,8 +930,14 @@
       });
 
       let container = document.getElementById('tradeSubContentContainer');
-      if(container && document.querySelector('.trade-sub-tab.active')?.innerText.includes('頭寸')) {
+      if(container && document.querySelector('#panel-trade-view .trade-sub-tab.active')?.innerText.includes('頭寸')) {
         container.innerHTML = html === '' ? `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">目前沒有持倉頭寸</div>` : html;
+      }
+
+      let chartContainer = document.getElementById('chartBottomContentContainer');
+      let activeChartTab = document.querySelector('#chartBottomTabs .trade-sub-tab.active');
+      if(chartContainer && activeChartTab && activeChartTab.innerText.includes('頭寸')) {
+        chartContainer.innerHTML = html === '' ? `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">目前沒有持倉頭寸</div>` : html;
       }
 
       let currentEquity = accountBalance + totalUnrealizedPnL;
@@ -785,11 +945,29 @@
       if(tradeEq) {
         tradeEq.innerText = "$" + currentEquity.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
       }
+
+      let portfolioTotalEq = document.getElementById('portfolio-total-equity');
+      if(portfolioTotalEq) {
+        portfolioTotalEq.innerText = "$" + currentEquity.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+
+      let derivMain = document.getElementById('portfolio-deriv-main');
+      if(derivMain) {
+        let derivVal = 436073929.58 + totalUnrealizedPnL;
+        derivMain.innerText = "$" + derivVal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+      let derivSub = document.getElementById('portfolio-deriv-sub');
+      if(derivSub) {
+        let derivVal = 436073929.58 + totalUnrealizedPnL;
+        derivSub.innerText = "$" + derivVal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
     }
 
     function updateOpenOrdersUI() {
       let countEl = document.getElementById('open-orders-count');
       if(countEl) countEl.innerText = openOrders.length;
+      let countEl2 = document.getElementById('chart-open-orders-count');
+      if(countEl2) countEl2.innerText = openOrders.length;
 
       let html = '';
       openOrders.forEach((order, index) => {
@@ -809,8 +987,14 @@
       });
 
       let container = document.getElementById('tradeSubContentContainer');
-      if(container && document.querySelector('.trade-sub-tab.active')?.innerText.includes('未結訂單')) {
+      if(container && document.querySelector('#panel-trade-view .trade-sub-tab.active')?.innerText.includes('未結訂單')) {
         container.innerHTML = html === '' ? `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">您沒有未結掛單</div>` : html;
+      }
+
+      let chartContainer = document.getElementById('chartBottomContentContainer');
+      let activeChartTab = document.querySelector('#chartBottomTabs .trade-sub-tab.active');
+      if(chartContainer && activeChartTab && activeChartTab.innerText.includes('未結訂單')) {
+        chartContainer.innerHTML = html === '' ? `<div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">您沒有未結掛單</div>` : html;
       }
     }
 
@@ -833,12 +1017,12 @@
         { name: "LINK-USDC", vol: "量 623.44万", symbol: "LINK" }
       ],
       perpetual: [
-        { name: "BTC Perp", tag: "50X", vol: "DRB · 量 2.21亿", symbol: "BTC" },
-        { name: "ETH Perp", tag: "50X", vol: "DRB · 量 4852.79万", symbol: "ETH" },
-        { name: "SOL Perp", tag: "50X", vol: "DRB · 量 12.15亿", symbol: "SOL" },
-        { name: "XRP Perp", tag: "50X", vol: "DRB · 量 847.32万", symbol: "XRP" },
-        { name: "ZEC Perp", tag: "25X", vol: "DRB · 量 484.41万", symbol: "ZEC" },
-        { name: "NEAR Perp", tag: "25X", vol: "DRB · 量 405.43万", symbol: "NEAR" }
+        { name: "BTC Perp", tag: "100X", vol: "DRB · 量 2.21亿", symbol: "BTC" },
+        { name: "ETH Perp", tag: "100X", vol: "DRB · 量 4852.79万", symbol: "ETH" },
+        { name: "SOL Perp", tag: "100X", vol: "DRB · 量 12.15亿", symbol: "SOL" },
+        { name: "XRP Perp", tag: "100X", vol: "DRB · 量 847.32万", symbol: "XRP" },
+        { name: "ZEC Perp", tag: "50X", vol: "DRB · 量 484.41万", symbol: "ZEC" },
+        { name: "NEAR Perp", tag: "50X", vol: "DRB · 量 405.43万", symbol: "NEAR" }
       ],
       watchlist: []
     };
@@ -848,26 +1032,26 @@
         <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:16px; margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <span style="font-size:15px; font-weight:800;">現金</span>
-            <span style="font-size:15px; font-weight:800;">NT$138,550,422.38 ∧</span>
+            <span style="font-size:15px; font-weight:800;">$3,598,123,446.12 ∧</span>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #1e2329;">
             <div style="display:flex; align-items:center; gap:10px;"><div style="width:28px; height:28px; background:#181a20; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;">$</div><span>USD</span></div>
-            <div style="text-align:right;"><div style="font-weight:700;">NT$0.00</div></div>
+            <div style="text-align:right;"><div style="font-weight:700;">$0.00</div></div>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
             <div style="display:flex; align-items:center; gap:10px;">${svgUsdc}<div><div>USDC <span style="font-size:10px; background:#0ecb8122; color:#0ecb81; padding:2px 6px; border-radius:4px;">高達 12.00% APY</span></div></div></div>
-            <div style="text-align:right;"><div style="font-weight:700;">NT$138,550,422.38</div></div>
+            <div style="text-align:right;"><div style="font-weight:700;">$3,598,123,446.12</div></div>
           </div>
         </div>
 
         <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
           <span style="font-size:15px; font-weight:800;">期貨與永續合約</span>
-          <span style="font-size:15px; font-weight:800;">NT$137,420,311.50 ∨</span>
+          <span style="font-size:15px; font-weight:800;" id="portfolio-deriv-sub2">$437,126,687.67 ∨</span>
         </div>
 
         <div style="background:#121418; border:1px solid #1e2329; border-radius:14px; padding:16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
           <span style="font-size:15px; font-weight:800;">加密貨幣</span>
-          <span style="font-size:15px; font-weight:800;">NT$0.00 ∨</span>
+          <span style="font-size:15px; font-weight:800;">$0.00 ∨</span>
         </div>
 
         <div style="background:#121418; border:1px solid #1e2329; border-radius:16px; padding:16px; margin-bottom:12px;">
@@ -898,7 +1082,7 @@
           <div style="font-size:12px; color:#848e9c; line-height:1.5; margin-bottom:12px;">您所屬的層級會取決於對您來說最有利用的交易量或帳戶餘額標準，所有的層級都可以讓您享有更優惠的費用機制和權益。</div>
           <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0; border-bottom:1px solid #1e2329;"><span>即時外匯交易的交易量 (過去 30 天內)</span><span style="color:#fff;">US$100,000,000.00</span></div>
           <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0; border-bottom:1px solid #1e2329;"><span>過去 30 天內的交易量 (永續產品/期貨)</span><span style="color:#fff;">US$500,000,000.00</span></div>
-          <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0;"><span>資產餘額</span><span style="color:#fff;">US$138,550,422.38</span></div>
+          <div style="display:flex; justify-content:space-between; font-size:12px; color:#848e9c; padding:6px 0;"><span>資產餘額</span><span style="color:#fff;">US$4,279,276,307.13</span></div>
         </div>
 
         <div class="category-tabs" style="margin-bottom:14px; border-bottom:none; padding:0;" id="portfolioSubTabs">
@@ -975,6 +1159,103 @@
       `
     };
 
+    let marketInfoContents = {
+      'funding': `
+        <div style="font-size:15px; font-weight:800; margin-bottom:12px;">融資利率</div>
+        <div style="font-size:13px; color:#848e9c; margin-bottom:8px;">即時融資利率</div>
+        <div class="overview-section">
+          <div class="overview-row"><div style="color:#848e9c;">每小時</div><div style="font-weight:700; color:#0ecb81;">0.001664%</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">8小時的累計利率</div><div style="font-weight:700;">0.013309%</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">年化</div><div style="font-weight:700;">14.57%</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">方針</div><div style="font-weight:700; color:#0ecb81;">做多支付做空</div></div>
+        </div>
+        <div style="font-size:13px; color:#848e9c; margin:16px 0 8px 0;">過去 8 小時 (已實現)</div>
+        <div class="overview-section">
+          <div class="overview-row"><div style="color:#848e9c;">過去 8 小時內</div><div style="font-weight:700;">0.001032%</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">年化</div><div style="font-weight:700;">1.13%</div></div>
+        </div>
+      `,
+      'specs': `
+        <div style="font-size:15px; font-weight:800; margin-bottom:12px;">合約規格</div>
+        <div class="overview-section">
+          <div class="overview-row"><div style="color:#848e9c;">價格來源</div><div style="font-weight:700;">DRB BTC-USDC 指數</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">永續合約上市日期</div><div style="font-weight:700;">09 Mar 2022, 11:12:22</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">最小訂單大小</div><div style="font-weight:700;">0.0001</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">價格變動幅度</div><div style="font-weight:700;">0.1</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">結算貨幣</div><div style="font-weight:700;">USDC</div></div>
+        </div>
+      `,
+      'about': `
+        <div style="font-size:15px; font-weight:800; margin-bottom:12px;">關於 Bitcoin</div>
+        <div style="font-size:13px; color:#eaecef; line-height:1.6; margin-bottom:16px;">
+          The world's first cryptocurrency, Bitcoin is stored and exchanged securely on the internet through a digital ledger known as a blockchain. Bitcoins are divisible into smaller units known as satoshis — each satoshi is worth 0.00000001 bitcoin.
+        </div>
+        <div style="font-size:15px; font-weight:800; margin-bottom:12px;">數據</div>
+        <div class="overview-section">
+          <div class="overview-row"><div style="color:#848e9c;">市值</div><div style="font-weight:700;">NT$54.8万亿</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">成交量 (24 小時)</div><div style="font-weight:700;">NT$7324.8亿 <span style="color:#0ecb81;">+87.55%</span></div></div>
+          <div class="overview-row"><div style="color:#848e9c;">流通量</div><div style="font-weight:700;">2009.4万 BTC</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">完全攤薄的市值</div><div style="font-weight:700;">NT$57.3万亿</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">歷史最高紀錄 (2025年10月)</div><div style="font-weight:700;">NT$4,008,815.50</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">較歷史最高点的跌幅</div><div style="font-weight:700; color:#f6465d;">-31.96%</div></div>
+          <div class="overview-row"><div style="color:#848e9c;">表現 (過去一年)</div><div style="font-weight:700; color:#f6465d;">-32%</div></div>
+        </div>
+        <div style="font-size:15px; font-weight:800; margin:16px 0 12px 0;">資源</div>
+        <div style="display:flex; gap:16px; font-size:13px; color:#ffffff; font-weight:600; align-items:center;">
+          <span style="cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="alert('開啟官方網站')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> 官方網站 ↗
+          </span>
+          <span style="cursor:pointer; display:flex; align-items:center; gap:6px;" onclick="alert('開啟白皮書')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path><path d="M6 6h10"></path><path d="M6 10h10"></path></svg> 白皮書 ↗
+          </span>
+        </div>
+      `
+    };
+
+    function switchMarketInfoTab(tabKey) {
+      let targetEl = document.getElementById('section-' + tabKey);
+      let panel = document.getElementById('panel-market-info');
+      if (targetEl && panel) {
+        panel.scrollTo({
+          top: targetEl.offsetTop - 60,
+          behavior: 'smooth'
+        });
+      }
+      updateActiveMarketTabUI(tabKey);
+    }
+
+    function updateActiveMarketTabUI(tabKey) {
+      document.querySelectorAll('.market-info-tab').forEach(t => {
+        t.style.color = '#848e9c';
+        t.style.borderBottom = 'none';
+      });
+      let activeEl = document.getElementById('m-tab-' + tabKey);
+      if (activeEl) {
+        activeEl.style.color = '#fff';
+        activeEl.style.borderBottom = '2px solid #fff';
+      }
+    }
+
+    function handleMarketInfoScroll() {
+      let panel = document.getElementById('panel-market-info');
+      let scrollTop = panel.scrollTop;
+      
+      let secFunding = document.getElementById('section-funding');
+      let secSpecs = document.getElementById('section-specs');
+      let secAbout = document.getElementById('section-about');
+
+      let aboutTop = secAbout.offsetTop - 100;
+      let specsTop = secSpecs.offsetTop - 100;
+
+      if (scrollTop >= aboutTop) {
+        updateActiveMarketTabUI('about');
+      } else if (scrollTop >= specsTop) {
+        updateActiveMarketTabUI('specs');
+      } else {
+        updateActiveMarketTabUI('funding');
+      }
+    }
+
     function renderMarketList(category) {
       let container = document.getElementById('market-list-container');
       if(!container) return;
@@ -1016,6 +1297,7 @@
         let subCont = document.getElementById('portfolioSubTabContentContainer');
         if(subCont) subCont.innerHTML = portfolioSubTabContents['fee-tier'];
       }
+      updatePositionsUI();
     }
 
     function switchPortfolioSubTab(el, tierKey) {
@@ -1051,6 +1333,39 @@
       }
     }
 
+    function switchChartBottomTab(el, tabKey) {
+      el.closest('#chartBottomTabs').querySelectorAll('.trade-sub-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      let container = document.getElementById('chartBottomContentContainer');
+      if(!container) return;
+
+      if(tabKey === 'orderbook') {
+        container.innerHTML = `<div id="chart-bottom-orderbook" style="display:flex; flex-direction:column; gap:2px;"></div>`;
+        updateLivePrices();
+      } else if(tabKey === 'recent-trades') {
+        let btcPrice = currentCoinPrices["BTC-USDC"].price;
+        let html = `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #1e2329; font-weight:700; color:#848e9c; font-size:12px;"><span>價格 (USDC)</span><span>金額 (BTC)</span><span>時間</span></div>`;
+        for(let i = 0; i < 8; i++) {
+          let p = (btcPrice + (Math.random() - 0.5) * 2).toFixed(2);
+          let q = (0.01 + Math.random() * 0.2).toFixed(4);
+          html += `<div style="display:flex; justify-content:space-between; padding:6px 0; font-size:12px;"><span style="color:#0ecb81; font-weight:700;">${p}</span><span>${q}</span><span style="color:#848e9c;">02:34:46</span></div>`;
+        }
+        container.innerHTML = html;
+      } else if(tabKey === 'positions') {
+        updatePositionsUI();
+      } else if(tabKey === 'open-orders') {
+        updateOpenOrdersUI();
+      } else if(tabKey === 'history-orders') {
+        container.innerHTML = `
+          <div style="text-align:center; padding:30px 0; color:#848e9c; font-size:13px;">
+            <div style="font-size:30px; margin-bottom:6px;">📋</div>
+            <div style="font-weight:700; color:#fff;">暫無訂單</div>
+            <div style="font-size:11px; margin-top:2px;">準備好交易了嗎？從下訂單開始</div>
+          </div>
+        `;
+      }
+    }
+
     function closePosition(index) {
       userPositions.splice(index, 1);
       updatePositionsUI();
@@ -1079,11 +1394,11 @@
 
       let marginEl = document.getElementById('available-margin-display');
       if(marginEl) {
-        marginEl.innerText = accountBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) + " ⊙";
+        marginEl.innerText = "$" + accountBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) + " ⊙";
       }
       let cashEl = document.getElementById('available-cash-display');
       if(cashEl) {
-        cashEl.innerText = "US$" + accountBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+        cashEl.innerText = "$" + accountBalance.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
       }
 
       openOrders.push({
@@ -1099,6 +1414,13 @@
       alert(`限價單提交成功！已加入「未結訂單」，等待價格達到 ${price.toLocaleString()} 時自動成交。`);
     }
 
+    function openTransferDetail() {
+      document.getElementById('transferDetailSubView').classList.add('active');
+    }
+    function closeTransferDetail() {
+      document.getElementById('transferDetailSubView').classList.remove('active');
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       let firstTab = document.querySelector('.category-tabs .tab');
       if(firstTab) firstTab.setAttribute('data-cat', 'spot');
@@ -1112,17 +1434,41 @@
       updatePositionsUI();
       updateOpenOrdersUI();
       updateLivePrices();
+
+      let chartBottomCont = document.getElementById('chartBottomContentContainer');
+      if(chartBottomCont) {
+        chartBottomCont.innerHTML = `<div id="chart-bottom-orderbook" style="display:flex; flex-direction:column; gap:2px;"></div>`;
+      }
+
       setInterval(updateLivePrices, 2500);
     });
 
     function switchCbTab(viewName, catKey) {
+      let detailChart = document.getElementById('view-detail-chart');
+      if(detailChart) detailChart.classList.remove('active');
+
+      closeTransferDetail();
+      closeAccountSettings();
+      closeSubPageView('profileSubView');
+      closeSubPageView('securitySubView');
+      closeSubPageView('paymentSubView');
+      closeSubPageView('notifSubView');
+
       document.querySelectorAll('.cb-view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
       let viewEl = document.getElementById('view-' + viewName);
       if(viewEl) viewEl.classList.add('active');
       let navEl = document.getElementById('nav-' + viewName);
       if(navEl) navEl.classList.add('active');
-      if(viewName === 'market' && catKey) { renderMarketList(catKey); }
+
+      if(viewName === 'market') {
+        if(catKey) {
+          let targetTab = document.getElementById(catKey === 'perpetual' ? 'tab-perpetual' : 'tab-spot');
+          if(targetTab) switchCategory(targetTab, catKey);
+        } else {
+          renderMarketList('spot');
+        }
+      }
       
       if(viewName === 'portfolio') {
         let portfolioContainer = document.getElementById('mainPortfolioContentContainer');
@@ -1132,6 +1478,7 @@
           portfolioTabs[0].classList.add('active');
           portfolioContainer.innerHTML = portfolioMainViews['overview'];
         }
+        updatePositionsUI();
       }
     }
 
@@ -1169,9 +1516,14 @@
       }
     }
 
-    function openDetailChart(coinName = 'BTC-USDC', price = 86546.72, change = '+2.19%', symbol = 'BTC') {
+    function openDetailChart(coinName = 'BTC-USDC', price = 85870.0, change = '+2.19%', symbol = 'BTC') {
       activeSelectedCoin = coinName;
       document.getElementById('view-detail-chart').classList.add('active');
+      
+      document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
+      let navTrade = document.getElementById('nav-trade');
+      if(navTrade) navTrade.classList.add('active');
+
       document.getElementById('fs-coin-title').innerText = coinName;
       document.getElementById('fs-coin-change').innerText = change;
       
@@ -1191,7 +1543,11 @@
       switchDetailTab('chart-view');
     }
 
-    function closeDetailChart() { document.getElementById('view-detail-chart').classList.remove('active'); }
+    function closeDetailChart() { 
+      document.getElementById('view-detail-chart').classList.remove('active'); 
+      switchCbTabToSpot();
+    }
+
     function openSideDrawer() { document.getElementById('sideDrawer').classList.add('active'); }
     function closeSideDrawer() { document.getElementById('sideDrawer').classList.remove('active'); }
     function openAccountSettings() { document.getElementById('settingsSubView').classList.add('active'); }
