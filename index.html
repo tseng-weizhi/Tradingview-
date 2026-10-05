@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- PWA 全螢幕與圖標設定 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Coinbase">
+  <link rel="apple-touch-icon" href="https://images.ctfassets.net/q57dpha6bcie/3IOcjh5UqgQx2R9s84Jd4X/7454228965f7c32742d8f63503f191f6/coinbase-icon.png">
+  
   <title>Coinbase Advanced Trade</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -83,7 +87,6 @@
     .drawer-content { position: absolute; top: 0; left: 0; bottom: 0; width: 85%; max-width: 340px; background: #0b0e11; padding: 20px; display: flex; flex-direction: column; gap: 14px; color: #fff; overflow-y: auto; }
     .drawer-item { display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; padding: 12px 0; border-bottom: 1px solid #1e2329; cursor: pointer; color: #eaecef; }
 
-    /* 底部彈跳面板樣式 */
     .action-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 3500; align-items: flex-end; }
     .action-modal-overlay.active { display: flex; }
     .action-modal-sheet { width: 100%; background: #0b0e11; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 16px 20px 40px 20px; border-top: 1px solid #1e2329; max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
@@ -453,7 +456,6 @@
     </div>
   </div>
 
-  <!-- 從底部彈出的互動式 Action Bottom Sheet Modal -->
   <div class="action-modal-overlay" id="actionModal" onclick="closeActionModal()">
     <div class="action-modal-sheet" onclick="event.stopPropagation()">
       <div class="sheet-indicator"></div>
@@ -476,7 +478,6 @@
     <div class="drawer-item" onclick="alert('已登出')"><div style="display:flex; align-items:center; gap:12px; color:#f6465d;"><svg class="cb-icon" style="stroke:#f6465d;" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg> 登出</div><span>></span></div>
   </div>
 
-  <!-- 更新後的個人資訊子視圖（完全匹配您的截圖與 Lapetos 名字） -->
   <div class="sub-page-view" id="profileSubView">
     <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid #1e2329; padding-bottom:14px;">
       <div onclick="closeSubPageView('profileSubView')" style="cursor:pointer; font-size:20px; color:#fff;">←</div>
@@ -928,7 +929,6 @@
     function closeSubPageView(viewId) { document.getElementById(viewId).classList.remove('active'); }
     function filterMarkets() {}
 
-    // 從底部彈出選單控制邏輯
     function openActionModal(type) {
       let modalBody = document.getElementById('modalDynamicBody');
       if (!modalBody) return;
